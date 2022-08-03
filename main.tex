@@ -5,6 +5,7 @@
 
 \usepackage{media9}
 \usepackage{amssymb,amsmath,amsthm,enumerate}
+\usepackage{mathtools}
 \usepackage[utf8]{inputenc}
 \usepackage{array}
 \usepackage[parfill]{parskip}
@@ -32,7 +33,13 @@
 \setbeamertemplate{caption}[numbered]
 \usepackage{media9} 
 %\usepackage[superscript,biblabel]{cite}
-\usepackage{algorithm2e}
+%\usepackage{algorithmic}
+%\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{caption}
+%\usepackage{xcolor}
+\usepackage{array}
 \renewcommand{\thealgocf}{}
 
 % Bibliography settings
@@ -123,31 +130,137 @@
 
 \begin{enumerate}
 	\item Introduction
+ 	\item Notations
 	\item Formulations
 	\item Example  
 \end{enumerate}
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Introduction}
+\begin{frame}{Introduction}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Notations}
 	\begin{itemize}
-	    \item Item 1
-		\item Item 2
-		\item Item 3
-		\begin{itemize}
-    		\item Subitem 1 
-    		\item Subitem 2
-		\end{itemize}
+		\item $a$: A scalar
+  		\item $\bold{a}$: A vector
+    	\item $\bold{A}$: A matrix
+     	\item $\bold{A}_{i,:}$: Row $i$ of matrix $\bold{A}$
+      	\item $\bold{A}_{:,j}$: Column $j$ of matrix $\bold{A}$
+       	\item $\bold{W^{(l)}}$: weights connect from (l-1)-th layer to l-th layer
+        \item $\bold{b}^{(l)}$: bias connect from (l-1)-th layer to l-th layer
+        \item $w_{ij}^{(l)}$: weight connects from i-th neuron of (l-1)-th layer to jth neuron lth layer
+        \item $z_{i}^{(l)}$: pre-activated output of neuron i-th of l-th layer
+        \item $a_{i}^{(l)}$: activated output of neuron i-th of l-th layer
+        \item $d^{(l)}$: number of neuron (dimension) of l-th layer
+        \item $\bold{z}^{(l)}$: pre-activated output vector of l-th layer. $\bold{z}^{(l)} = \begin{bmatrix} z_1^{(l)} & z_2^{(l)} & \dots & z_{d^{(l)}}^{(l)}\end{bmatrix}^T$
+        \item $\bold{a}^{(l)}$: activated output vector of l-th layer. $\bold{a}^{(l)} = \begin{bmatrix} a_1^{(l)} & a_2^{(l)} &\dots & a_{d^{(l)}}^{(l)}\end{bmatrix}^T$
+        \item $\mathcal{L}$: loss function
+        \item $\odot$: Element-wise product of two vectors
+        \item $\bold{x}=\bold{a}^{(0)}$: input of neural network
 	\end{itemize}
-	
-	Citation 1 \cite{rumelhart1986learning}
+
 \end{frame}
 
-\begin{frame}{Materials and Methods}
-\end{frame}
+\begin{frame}[allowframebreaks]{Formulations}
+	\begin{itemize}
+		\item $\bold{W}^{(l)}$: weights of l-th layer
+    	\begin{equation*}
+			\bold{W}^{(l)}=\begin{bmatrix} w_{11}^{(l)} & w_{12}^{(l)} & w_{13}^{(l)} & \dots & w_{1d^{(l)}}^{(l)} \\ w_{21}^{(l)} & w_{22}^{(l)} & w_{23}^{(l)} & \dots & w_{2d^{(l)}}^{(l)} \\ \vdots & \thickspace & \thickspace & \thickspace & \vdots \\ w_{d^{(l-1)}1}^{(l)} & w_{d^{(l-1)}2}^{(l)} & w_{d^{(l-1)}3}^{(l)} & \dots & w_{d^{(l-1)}d^{(l)}}^{(l)}\end{bmatrix} \in \mathbb{R}^{d^{(l-1)} \times d^{(l)}}
+		\end{equation*}
+		\item $\bold{b}^{(l)}$: bias of l-th layer
+		\begin{equation*}
+			\bold{b}^{(l)}=\begin{bmatrix} b_1^{(l)} \\  b_2^{(l)} \\ \vdots \\ b_{d^{(l)}}^{(l)} \end{bmatrix}
+		\end{equation*}
+		\item Pre-activated output of neuron i-th of l-th layer:
+		\begin{equation}
+			z_j^{(l)}=\sum_{i=1}^{d^{(l-1)}}w_{ij}^{(l)}a_i^{(l-1)}+b_j^{(l)}=\Big(\bold{W}_{:,j}\Big)^T \bold{a}^{(l-1)} + b_j^{(l)}
+		\end{equation}
+		\item Activated output of neuron i-th of l-th layer:
+		\begin{equation}
+			a_j^{(l)} = \bold{f}(z_j^{(l)})
+		\end{equation}
+		\item Pre-activated output in matrix form:
+		\begin{equation}
+			\bold{z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T\bold{a}^{(l-1)} + \bold{b}^{(l)}, l=1, \dots, L
+		\end{equation}
+		\item Activated output in matrix form:
+		\begin{equation}
+			\bold{a}^{(l)}=\bold{f}(\bold{z}^{(l)}), l=1, \dots, L
+		\end{equation}
+		\item Loss function:
+		\begin{equation}
+			\mathcal{L} = \bold{g}\Big(\bold{a}^{(L)} \Big)
+		\end{equation}
+	\end{itemize}
 
-\begin{frame}{Results}
+	We need to calculate partial derivatives of $\mathcal{L}$ with respect to all $\bold{W}^{(l)}$ and $\bold{b}^{(l)}, l=1, \dots, L$
+
+	\begin{equation}
+		\dfrac{\partial \mathcal{L}}{w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(l)}}\dfrac{\partial z_j^{(l)}}{w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(l)}}a_i^{(l-1)}
+	\end{equation}
+
+	\begin{equation}
+		\dfrac{\partial \mathcal{L}}{\partial b_j^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(l)}}\dfrac{\partial z_j^{(l)}}{\partial b_j^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(l)}}
+	\end{equation}
+
+	We set:
+	\begin{equation}
+		\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(l)}}:=e_j^{(l)}
+	\end{equation}
+
+	At output layer ($L$-th layer):
+
+	\begin{equation}
+		\begin{aligned}
+			\dfrac{\partial \mathcal{L}}{w_{ij}^{(L)}}&=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(L)}}\dfrac{\partial z_j^{(L)}}{w_{ij}^{(L)}}\\&=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(L)}}a_i^{(L-1)}\\&=\dfrac{\partial\mathcal{L}}{\partial a_j^{(L)}}\dfrac{\partial a_j^{(L)}}{\partial z_j^{(L)}}a_i^{(L-1)}\\&=\dfrac{\partial\mathcal{L}}{\partial a_j^{(L)}}\bold{f}^{\prime}\Big(z_j^{(L)}\Big)a_i^{(L-1)}
+		\end{aligned}
+	\end{equation}
+
+	\begin{equation}
+		\begin{aligned}
+			\bold{e}^{(L)}&=\begin{bmatrix} \dfrac{\partial\mathcal{L}}{\partial z_1^{(L)}} & \dfrac{\partial\mathcal{L}}{\partial z_2^{(L)}} & \dots & \dfrac{\partial\mathcal{L}}{\partial z_{d^{(L)}}^{(L)}} \end{bmatrix}^T\\&=\begin{bmatrix} \dfrac{\partial\mathcal{L}}{\partial a_1^{(L)}}\dfrac{\partial a_1^{(L)}}{\partial z_1^{(L)}} & \dfrac{\partial\mathcal{L}}{\partial a_2^{(L)}}\dfrac{\partial a_2^{(L)}}{\partial z_2^{(L)}} & \dots & \dfrac{\partial\mathcal{L}}{\partial a_{d^{(L)}}^{(L)}}\dfrac{\partial a_{d^{(L)}}^{(L)}}{\partial z_{d^{(L)}}^{(L)}} \end{bmatrix}^T\\&=\begin{bmatrix} \dfrac{\partial\mathcal{L}}{\partial a_1^{(L)}}\bold{f}^{\prime}\Big(z_1^{(L)}\Big) & \dfrac{\partial\mathcal{L}}{\partial a_2^{(L)}}\bold{f}^{\prime}\Big(z_2^{(L)}\Big) & \dots & \dfrac{\partial\mathcal{L}}{\partial a_{d^{(L)}}^{(L)}}\bold{f}^{\prime}\Big(z_{d^{(L)}}^{(L)}\Big) \end{bmatrix}^T\\&=\dfrac{\partial \mathcal{L}}{\partial \bold{a}^{(L)}} \odot \bold{f}^{\prime}(\bold{z}^{(L)})
+		\end{aligned}
+	\end{equation}
+
+	\begin{equation}
+		\Rightarrow \begin{cases}\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\bold{a}^{(L-1)}\Big(\bold{e}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\bold{e}^{(L)} \end{cases}
+	\end{equation}
+
+	At l-th layer ($1 \leq l < L$):
+
+	\begin{equation}
+		\dfrac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}\dfrac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}} a_i^{(l-1)}=e_j^{(l)}a_i^{(l-1)}
+	\end{equation}
+
+	\begin{equation}
+		\dfrac{\partial \mathcal{L}}{\partial b_j^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}\dfrac{\partial z_j^{(l)}}{\partial b_j^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}} = e_j^{(l)}
+	\end{equation}
+
+	\begin{equation}
+		\Rightarrow \begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}}=\bold{a}^{(l-1)}\Big(\bold{e}^{(l)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\bold{e}^{(l)} \end{cases}
+	\end{equation}
+
+	We consider $\mathcal{L} = \mathcal{L}\Big(\bold{z}^{(l+1)}\Big)=\mathcal{L}\Big(z_1^{(l+1)}, z_2^{(l+1)}, \dots, z_{d^{(l+1)}}^{(l+1)}\Big)$:
+	\begin{equation}
+		\begin{aligned}
+			\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}&=\sum_{k=1}^{d^{(l+1)}}\dfrac{\partial \mathcal{L}}{\partial z_k^{(l+1)}} \dfrac{\partial z_k^{(l+1)}}{\partial z_j^{(l)}}\\&=\sum_{k=1}^{d^{(l+1)}} \dfrac{\partial \mathcal{L}}{\partial z_k^{(l+1)}} \dfrac{\partial z_k^{(l+1)}}{\partial a_j^{(l)}} \dfrac{\partial a_j^{(l)}}{\partial z_j^{(l)}}\\&=\sum_{k=1}^{d^{(l+1)}}\dfrac{\partial \mathcal{L}}{\partial z_k^{(l+1)}}w_{jk}^{(l+1)}\bold{f}^{\prime}\Big(z_j^{(l)}\Big)
+		\end{aligned}
+	\end{equation}
+
+	\begin{equation}
+		\begin{aligned}
+			e_j^{(l)}&=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}\\&=\sum_{k=1}^{d^{(l+1)}}e_k^{(l+1)}w_{jk}^{(l+1)}\bold{f}^{\prime}\Big(z_j^{(l)}\Big)\\&=\bold{f}^{\prime}(z_j^{(l)})\bold{W}_{j,:}^{(l+1)}\bold{e}^{(l+1)}
+		\end{aligned}
+	\end{equation}
+
+	In matrix form:
+
+	\begin{equation}
+		\bold{e}^{(l)}=\bold{W}^{(l+1)}\bold{e}^{(l+1)}\odot\bold{f}^{\prime}(\bold{z}^{(l)})
+	\end{equation}
+
 \end{frame}
 
 \begin{frame}{Discussion}
