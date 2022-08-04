@@ -36,11 +36,13 @@
 %\usepackage{algorithmic}
 %\usepackage{algorithm2e}
 \usepackage{algpseudocode}
-\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{algorithm}
+%\usepackage{algorithmic}
 \usepackage{caption}
 %\usepackage{xcolor}
 \usepackage{array}
-\renewcommand{\thealgocf}{}
+%\renewcommand{\thealgocf}{}
 
 % Bibliography settings
 %\usepackage[style=authoryear]{biblatex}
@@ -260,6 +262,36 @@
 	\begin{equation}
 		\bold{e}^{(l)}=\bold{W}^{(l+1)}\bold{e}^{(l+1)}\odot\bold{f}^{\prime}(\bold{z}^{(l)})
 	\end{equation}
+
+	\framebreak
+	
+	\begin{algorithm}[H]
+		\caption{Backpropagation with single training sample}
+		\begin{algorithmic}[1]
+			\For{$l=1,\dots, L$}
+				\State{Initialize $\bold{W}^{(l)}$ and $\bold{b}^{(l)}$ randomly}
+			\EndFor
+			\While{not converged}
+				\State {Get training sample $\bold{x}$}
+				\State{$\bold{a}^{(0)}=\bold{x}$}
+				\For{$l=1,\dots, L$} \Comment{Compute forward pass}
+					\State{$\bold{z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T \bold{a}^{(l-1)} + \bold{b}^{(l)}$}
+					\State{$\bold{a}^{(l)}=\bold{f}\Big(\bold{z}^{(l)}\Big)$}
+				\EndFor
+				\State{Compute $\mathcal{L}=\bold{g}\Big(\bold{a}^{(L)}\Big)$}
+				\State{$\bold{e}^{(L)}=\dfrac{\partial \mathcal{L}}{\partial \bold{a}^{(L)}} \odot \bold{f}^{\prime}(\bold{z}^{(L)})$}
+				\State{$\begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\bold{a}^{(L-1)}\Big(\bold{e}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\bold{e}^{(L)} \end{cases}$}
+				\For{$l=L-1, \dots, 1$} \Comment{Compute backpropagation (backward pass)}
+					\State{$\bold{e}^{(l)}=\bold{W}^{(l+1)}\bold{e}^{(l+1)}\odot\bold{f}^{\prime}(\bold{z}^{(l)})$}
+					\State{$\begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}}=\bold{a}^{(l-1)}\Big(\bold{e}^{(l)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\bold{e}^{(l)} \end{cases}$}
+				\EndFor
+				\For{$l=1, \dots, L$} \Comment{Update neural network weights}
+					\State{$\begin{cases} \bold{W}^{(l)} \leftarrow \bold{W}^{(l)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}} \\ \bold{b}^{(l)} \leftarrow \bold{b}^{(l)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}} \end{cases}$}
+				\EndFor
+			\EndWhile
+		\end{algorithmic}
+	\end{algorithm}
+
 
 \end{frame}
 
