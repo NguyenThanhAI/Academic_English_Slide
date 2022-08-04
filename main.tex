@@ -139,7 +139,37 @@
 
 \end{frame}
 
-\begin{frame}{Introduction}
+\begin{frame}[allowframebreaks]{Introduction}
+
+	\begin{algorithm}[H]
+		\caption{Traning neural network}
+		\begin{algorithmic}[1]
+			\State{Initialize neural network weights $\bold{W}$ randomly}
+			\While{not converged}
+				\State{Get training sample} (data loading)
+				\State{Calculate neural network output and loss function $\mathcal{L}$} (forward pass)
+				\State{Calculate partial derivatives of loss funtion with respect to $\bold{W}$}
+				\State{Update neural network weights: \begin{equation*}
+					\bold{W} \leftarrow \bold{W} - \alpha  \dfrac{\partial \mathcal{L}}{\partial \bold{W}}
+				\end{equation*}}
+			\EndWhile
+		\end{algorithmic}
+	\end{algorithm}
+
+	\begin{itemize}
+		\item Problem: But how do we calculate $\dfrac{\partial \mathcal{L}}{\partial \bold{W}}$?
+  		\item We can calculate $\dfrac{\partial \mathcal{L}}{\partial \bold{W}}$ by a technique called Backpropagation
+	\end{itemize}
+
+	\begin{itemize}
+		\item Backpropagation: Partial derivatives of loss function with respect to outputs of a layer computed by partial derivatives of loss function with respect to outputs of its successive layer
+  		\item One training step can decompose of 3 stages:
+		\begin{itemize}
+			\item Foward pass: Compute output of deep neural network and loss function
+   			\item Backward pass (Backpropagation): Calculate gradient of loss function with respect to weights of layers. Start from top (output) to first (input) layer
+      		\item Update: Update neural network weights
+		\end{itemize}
+	\end{itemize}
 
 \end{frame}
 
@@ -193,7 +223,7 @@
 		\end{equation}
 		\item Loss function:
 		\begin{equation}
-			\mathcal{L} = \bold{g}\Big(\bold{a}^{(L)} \Big)
+			\mathcal{L} = \ell\Big(\bold{a}^{(L)} \Big)
 		\end{equation}
 	\end{itemize}
 
@@ -276,13 +306,13 @@
 				\State{Initialize $\bold{W}^{(l)}$ and $\bold{b}^{(l)}$ randomly}
 			\EndFor
 			\While{not converged}
-				\State {Get training sample $\bold{x}$}
+				\State {Get training sample $\bold{x}$} \Comment{Data loading}
 				\State{$\bold{a}^{(0)}=\bold{x}$}
 				\For{$l=1,\dots, L$} \Comment{Compute forward pass}
 					\State{$\bold{z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T \bold{a}^{(l-1)} + \bold{b}^{(l)}$}
 					\State{$\bold{a}^{(l)}=\bold{f}\Big(\bold{z}^{(l)}\Big)$}
 				\EndFor
-				\State{Compute $\mathcal{L}=\bold{g}\Big(\bold{a}^{(L)}\Big)$}
+				\State{Compute $\mathcal{L}=\ell\Big(\bold{a}^{(L)}\Big)$}
 				\State{$\bold{e}^{(L)}=\dfrac{\partial \mathcal{L}}{\partial \bold{a}^{(L)}} \odot \bold{f}^{\prime}(\bold{z}^{(L)})$}
 				\State{$\begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\bold{a}^{(L-1)}\Big(\bold{e}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\bold{e}^{(L)} \end{cases}$}
 				\For{$l=L-1, \dots, 1$} \Comment{Compute backpropagation (backward pass)}
@@ -302,13 +332,10 @@
 
 \end{frame}
 
-\begin{frame}{Discussion}
+\begin{frame}[allowframebreaks]{Example}
 \end{frame}
 
-\begin{frame}{Conclusion}
-\end{frame}
-
-\begin{frame}{Acknowledgements}
+\begin{frame}[allowframebreaks]{Conclusion}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{References}
