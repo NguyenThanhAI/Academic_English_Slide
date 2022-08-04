@@ -393,6 +393,42 @@
 		\begin{cases}\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}}=\dfrac{1}{N}\bold{A}^{(l-1)}\Big(\bold{E}^{(l)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\dfrac{1}{N}\bold{E}^{(l)}\begin{bmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{bmatrix}=\dfrac{1}{N}\sum_{n=1}^{N}\bold{e}_n^{(l)} \end{cases}
 	\end{equation}
 
+	\framebreak
+
+	\begingroup
+	\small
+	\scalebox{0.6}{
+	\begin{minipage}{1.2 \linewidth}
+	\begin{algorithm}[H]
+		\caption{Backpropagation with multiple training samples}
+		\begin{algorithmic}[1]
+			\For{$l=1,\dots, L$}
+				\State{Initialize $\bold{W}^{(l)}$ and $\bold{b}^{(l)}$ randomly}
+			\EndFor
+			\While{not converged}
+				\State {Get training samples $\bold{X}$ batch size $N$} \Comment{Data loading}
+				\State{$\bold{A}^{(0)}=\bold{X}$}
+				\For{$l=1,\dots, L$} \Comment{Compute forward pass}
+					\State{$\bold{Z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T \bold{A}^{(l-1)} + \bold{B}^{(l)}$}
+					\State{$\bold{A}^{(l)}=\bold{f}\Big(\bold{Z}^{(l)}\Big)$}
+				\EndFor
+				\State{Compute $\mathcal{L}=\ell\Big(\bold{A}^{(L)}\Big)$}
+				\State{$\bold{E}^{(L)}=\dfrac{\partial \mathcal{L}}{\partial \bold{A}^{(L)}} \odot \bold{f}^{\prime}(\bold{Z}^{(L)})$}
+				\State{$\begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\dfrac{1}{N}\bold{A}^{(L-1)}\Big(\bold{E}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\dfrac{1}{N}\sum_{i=1}^{N}\bold{e}^{(L)} \end{cases}$}
+				\For{$l=L-1, \dots, 1$} \Comment{Compute backpropagation (backward pass)}
+					\State{$\bold{E}^{(l)}=\bold{W}^{(l+1)}\bold{E}^{(l+1)}\odot\bold{f}^{\prime}(\bold{Z}^{(l)})$}
+					\State{$\begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}}=\dfrac{1}{N}\bold{A}^{(l-1)}\Big(\bold{E}^{(l)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\dfrac{1}{N}\sum_{i=1}^{N}\bold{e}^{(l)} \end{cases}$}
+				\EndFor
+				\For{$l=1, \dots, L$} \Comment{Update neural network weights}
+					\State{$\begin{cases} \bold{W}^{(l)} \leftarrow \bold{W}^{(l)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}} \\ \bold{b}^{(l)} \leftarrow \bold{b}^{(l)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}} \end{cases}$}
+				\EndFor
+			\EndWhile
+		\end{algorithmic}
+	\end{algorithm}
+	\end{minipage}
+	}
+	\endgroup
+
 	Softmax function for classification problem:
 
 	\begin{equation}
