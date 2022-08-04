@@ -134,7 +134,7 @@
 	\item Introduction
  	\item Notations
 	\item Formulations
-	\item Example  
+	\item Experiment  
 \end{enumerate}
 
 \end{frame}
@@ -142,7 +142,7 @@
 \begin{frame}[allowframebreaks]{Introduction}
 
 	\begin{algorithm}[H]
-		\caption{Traning neural network}
+		\caption{Training neural network}
 		\begin{algorithmic}[1]
 			\State{Initialize neural network weights $\bold{W}$ randomly}
 			\While{not converged}
@@ -329,10 +329,111 @@
 	}
 	\endgroup
 
+	For multiple training samples cases (Minibatch): Batch size $N$
+
+	Input data:
+
+	\begin{equation}
+		\bold{X}=\bold{A}^{(0)}=\begin{bmatrix} \bold{x}_1 \vert \bold{x}_2 \vert \dots \vert \bold{x}_n \vert \dots \vert  \bold{x}_N \end{bmatrix} \in \mathbb{R}^{d^{(0)} \times N}
+	\end{equation}
+
+	Pre-activated outputs of l-th layer:
+
+	\begin{equation}
+		\bold{Z}^{(l)}=\begin{bmatrix} \bold{z}_1^{(l)} \vert \bold{z}_2^{(l)} \vert \dots \vert \bold{z}_n^{(l)} \vert \dots \vert \bold{z}_N^{(l)} \end{bmatrix} \in \mathbb{R}^{d^{(l)} \times N}
+	\end{equation}
+
+	Activated outputs of l-th layer:
+
+	\begin{equation}
+		\bold{A}^{(l)}=\bold{f}\Big(\bold{Z}^{(l)}\Big)=\begin{bmatrix} \bold{a}_1^{(l)} \vert \bold{a}_2^{(l)} \vert \dots \vert \bold{a}_n^{(l)} \vert \dots \vert \bold{a}_N^{(l)} \end{bmatrix} \in \mathbb{R}^{d^{(l)} \times N}
+	\end{equation}
+
+	Biases is tiled $N$ times:
+
+	\begin{equation}
+		\bold{B}^{(l)}=\underbrace{\begin{bmatrix} \bold{b}^{(l)} \vert \bold{b}^{(l)} \vert \dots \vert \bold{b}^{(l)} \end{bmatrix}}_{N\text{ times}} \in \mathbb{R}^{d^{(l)} \times N}
+	\end{equation}
+
+	Compute pre-activated outputs of l-th layer:
+
+	\begin{equation}
+		\bold{Z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T\bold{A}^{(l-1)} + \bold{B}^{(l)}
+	\end{equation}
+
+	Compute activated outputs of l-th layer:
+
+	\begin{equation}
+		\bold{A}^{(l)} = \bold{f} \Big( \bold{Z}^{(l)} \Big)
+	\end{equation}
+
+	At output layer ($l=L$):
+
+	\begin{equation}
+		\bold{E}^{(L)}=\dfrac{\partial \mathcal{L}}{\partial \bold{A}^{(L)}} \odot \bold{f}^{\prime}\Big( \bold{Z}^{(L)} \Big)
+	\end{equation}
+
+	\begin{equation}
+		\begin{aligned}
+			\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}&=\dfrac{1}{N}\bold{A}^{(L-1)} \Big(\bold{E}^{(L)}\Big)^T\\&=\dfrac{1}{N}\begin{bmatrix} \bold{a}_1^{(L-1)} \vert \bold{a}_2^{(L-1)} \vert \dots \vert \bold{a}_n^{(L-1)} \vert \dots \vert \bold{a}_N^{(L-1)} \end{bmatrix}\begin{bmatrix} \underline{\Big(\bold{e}_1^{(L)}\Big)^T} \\ \underline{\Big(\bold{e}_2^{(L)}\Big)^T} \\ \vdots \\ \underline{\Big(\bold{e}_n^{(L)}\Big)^T} \\ \vdots \\ \Big(\bold{e}_N^{(L)}\Big)^T \end{bmatrix}\\&=\dfrac{1}{N}\sum_{n=1}^{N} \bold{a}_n^{(L-1)}\Big(\bold{e}_n^{(L)}\Big)^T
+		\end{aligned}
+	\end{equation}
+
+	\begin{equation}
+		\dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\dfrac{1}{N}\bold{E}^{(L)}\begin{bmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{bmatrix}=\dfrac{1}{N}\sum_{n=1}^{N}\bold{e}_n^{(L)}
+	\end{equation}
+
+	At l-th layer ($1 \leq l < L$):
+
+	\begin{equation}
+		\bold{E}^{(l)}=\bold{W}^{(l+1)}\bold{E}^{(l+1)}\odot \bold{f}^{\prime}\Big( \bold{Z}^{(l)} \Big)
+	\end{equation}
+
+	\begin{equation}
+		\begin{cases}\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}}=\dfrac{1}{N}\bold{A}^{(l-1)}\Big(\bold{E}^{(l)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\dfrac{1}{N}\bold{E}^{(l)}\begin{bmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{bmatrix}=\dfrac{1}{N}\sum_{n=1}^{N}\bold{e}_n^{(l)} \end{cases}
+	\end{equation}
+
+	Softmax function for classification problem:
+
+	\begin{equation}
+		\hat{y}_j = a_j^{(L)}=\dfrac{\exp(z_j^{(L)})}{\sum_{k=1}^{d^{(L)}}\exp(z_k^{(L)})}, j=1,\dots, d^{(L)}
+	\end{equation}
+
+	\begin{equation}
+		\begin{aligned}
+			\dfrac{\partial a_j^{(L)}}{\partial z_j^{(L)}}&=\dfrac{\exp(z_j^{(L)})\sum_{k=1}^{d^{(L)}}\exp(z_k^{(L)}) - \exp(z_j^{(L)})\exp(z_j^{(L)})}{\Bigg(\sum_{k=1}^{d^{(L)}}\exp(z_k^{(L)})\Bigg)^2}\\&=a_j^{(L)}\Big(1- a_j^{(L)} \Big)=\hat{y}_j \Big(1 - \hat{y}_j\Big)
+		\end{aligned}
+	\end{equation}
+
+	Softmax cross entropy loss:
+
+	\begin{equation}
+		\mathcal{L}=\sum_{j=1}^{d^{(L)}}-y_j \log a_j^{(L)}+(1-y_j)\log(1-a_j^{(L)})
+	\end{equation}
+
+	Compute partial derivatives of cross entropy loss with respect to $\bold{z}^{(L)}$:
+
+	\begin{equation}
+		\begin{aligned}
+			\dfrac{\partial \mathcal{L}}{\partial a_j^{(L)}}&=-\dfrac{y_j}{a_j^{(L)}}+\dfrac{1-y_j}{1-a_j^{(L)}}\\&=\dfrac{-y_j\Big(1-a_j^{(L)}\Big)+(1-y_j)a_j^{(L)}}{a_j^{(L)}\Big(1-a_j^{(L)}\Big)}\\&=\dfrac{a_j^{(L)}-y_j}{a_j^{(L)}\Big(1-a_j^{(L)}\Big)}
+		\end{aligned}
+	\end{equation}
+
+	\begin{equation}
+		\begin{aligned}
+			e_j^{(L)}&=\dfrac{\partial \mathcal{L}}{\partial z_j^{(L)}}\\&=\dfrac{\partial \mathcal{L}}{\partial a_j^{(L)}}\dfrac{\partial a_j^{(L)}}{\partial z_j^{(L)}}\\&=\dfrac{a_j^{(L)}-y_j}{a_j^{(L)}\Big(1-a_j^{(L)}\Big)}a_j^{(L)}\Big(1- a_j^{(L)} \Big)\\&=a_j^{(L)} - y_j =\hat{y}_j - y_j
+		\end{aligned}
+	\end{equation}
+
+	\begin{equation}
+		\begin{aligned}
+			\bold{e}^{(L)}&=\begin{bmatrix} a_1^{(L)} - y_1 & a_2^{(L)} - y_2 & \dots & a_j^{(L)} - y_j & \dots & a_{d^{(L)}}^{(L)} - y_{d^{(L)}} \end{bmatrix}^T\\&=\begin{bmatrix} \hat{y}_1 - y_1 & \hat{y}_2 - y_2 & \dots & \hat{y}_j - y_j & \dots & \hat{y}_{d^{(L)}} - y_{d^{(L)}} \end{bmatrix}^T
+		\end{aligned}
+	\end{equation}
 
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Example}
+\begin{frame}[allowframebreaks]{Experiment}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Conclusion}
