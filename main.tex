@@ -79,14 +79,14 @@
 \let\@@magyar@captionfix\relax
 \makeatother
 
-\title[Title]{Backpropagation in Training \\ Deep Neural Networks}
+\title[Backpropagation in Training Deep Neural Networks]{Backpropagation in Training \\ Deep Neural Networks}
 
 
 \begin{document}
 
 \nocite{*}
 
-\author[Author]{
+\author[Chi Thanh Nguyen - Duc Thinh Nguyen]{
 	\begin{tabular}{c} 
 	\Large
 	Chi Thanh Nguyen \\
@@ -141,6 +141,31 @@
 
 \begin{frame}[allowframebreaks]{Introduction}
 
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Notations}
+	\begin{itemize}
+		\item $a$: A scalar
+  		\item $\bold{a}$: A vector
+    	\item $\bold{W}$: A matrix
+     	\item $\bold{W}_{i,:}$: Row $i$ of matrix $\bold{W}$
+      	\item $\bold{W}_{:,j}$ or $\bold{w}_j$: Column $j$ of matrix $\bold{W}$
+       	\item $\bold{W^{(l)}}$: weights connect from (l-1)-th layer to l-th layer
+        \item $\bold{b}^{(l)}$: bias connect from (l-1)-th layer to l-th layer
+        \item $w_{ij}^{(l)}$: weight connects from i-th neuron of (l-1)-th layer to jth neuron lth layer
+        \item $z_{i}^{(l)}$: pre-activated output of neuron i-th of l-th layer
+        \item $a_{i}^{(l)}$: activated output of neuron i-th of l-th layer
+        \item $d^{(l)}$: number of neuron (dimension) of l-th layer
+        \item $\bold{z}^{(l)}$: pre-activated output vector of l-th layer. $\bold{z}^{(l)} = \begin{bmatrix} z_1^{(l)} & z_2^{(l)} & \dots & z_{d^{(l)}}^{(l)}\end{bmatrix}^T$
+        \item $\bold{a}^{(l)}$: activated output vector of l-th layer. $\bold{a}^{(l)} = \begin{bmatrix} a_1^{(l)} & a_2^{(l)} &\dots & a_{d^{(l)}}^{(l)}\end{bmatrix}^T$
+        \item $\mathcal{L}$: loss function
+        \item $\odot$: Element-wise product of two vectors
+        \item $\bold{x}=\bold{a}^{(0)}$: input of neural network
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Formulations}
 	\begin{algorithm}[H]
 		\caption{Training neural network}
 		\begin{algorithmic}[1]
@@ -170,32 +195,7 @@
       		\item Update: Update neural network weights
 		\end{itemize}
 	\end{itemize}
-
-\end{frame}
-
-\begin{frame}[allowframebreaks]{Notations}
-	\begin{itemize}
-		\item $a$: A scalar
-  		\item $\bold{a}$: A vector
-    	\item $\bold{A}$: A matrix
-     	\item $\bold{A}_{i,:}$: Row $i$ of matrix $\bold{A}$
-      	\item $\bold{A}_{:,j}$: Column $j$ of matrix $\bold{A}$
-       	\item $\bold{W^{(l)}}$: weights connect from (l-1)-th layer to l-th layer
-        \item $\bold{b}^{(l)}$: bias connect from (l-1)-th layer to l-th layer
-        \item $w_{ij}^{(l)}$: weight connects from i-th neuron of (l-1)-th layer to jth neuron lth layer
-        \item $z_{i}^{(l)}$: pre-activated output of neuron i-th of l-th layer
-        \item $a_{i}^{(l)}$: activated output of neuron i-th of l-th layer
-        \item $d^{(l)}$: number of neuron (dimension) of l-th layer
-        \item $\bold{z}^{(l)}$: pre-activated output vector of l-th layer. $\bold{z}^{(l)} = \begin{bmatrix} z_1^{(l)} & z_2^{(l)} & \dots & z_{d^{(l)}}^{(l)}\end{bmatrix}^T$
-        \item $\bold{a}^{(l)}$: activated output vector of l-th layer. $\bold{a}^{(l)} = \begin{bmatrix} a_1^{(l)} & a_2^{(l)} &\dots & a_{d^{(l)}}^{(l)}\end{bmatrix}^T$
-        \item $\mathcal{L}$: loss function
-        \item $\odot$: Element-wise product of two vectors
-        \item $\bold{x}=\bold{a}^{(0)}$: input of neural network
-	\end{itemize}
-
-\end{frame}
-
-\begin{frame}[allowframebreaks]{Formulations}
+	\framebreak
 	\begin{itemize}
 		\item $\bold{W}^{(l)}$: weights of l-th layer
     	\begin{equation*}
