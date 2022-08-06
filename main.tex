@@ -54,6 +54,12 @@
 
 % Glossary entries
 \usepackage[acronym]{glossaries}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,snakes}
+
+
 \newacronym{ML}{ML}{machine learning}
 \newacronym{HRI}{HRI}{human-robot interactions}
 \newacronym{RNN}{RNN}{Recurrent Neural Network}
@@ -140,7 +146,33 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Introduction}
-
+	\begin{figure}
+		\centering
+		\resizebox{8.5cm}{!}{%
+		\begin{tikzpicture}
+		\node [circle, draw=black!60, fill=blue!30, minimum size=10mm] (bias) at (0, 5) {1};
+			
+		\node[circle, draw=black!60, fill=cyan!60, minimum size=12mm] (x_1) at (0, 3) {$x_1$};
+			
+		\node[circle, draw=black!60, fill=cyan!60, minimum size=12mm] (x_2) at (0, 1) {$x_2$};
+			
+		\path (x_2) --++ (0, -3) node[midway,scale=5] {$\vdots$};
+			
+		\node[circle, draw=black!60, fill=cyan!60, minimum size=12mm] (x_d) at (0, -4) {$x_d$};
+			
+		\node[circle split, draw=black!60, rotate=90, fill=white, minimum size = 30mm] (z) at (6, 0){\rotatebox{-90}{$z=\displaystyle\sum$} \nodepart{lower} \rotatebox{-90}{$a=\mathbf{f}(z)$}};
+			
+		\draw[->] (bias) -- (z) node[midway,above] {$b$};
+		\draw[->] (x_1) -- (z) node[midway,above] {$w_1$};
+		\draw[->] (x_2) -- (z) node[midway,above] {$w_2$};
+		\draw[->] (x_d) -- (z) node[midway,below] {$w_d$};
+			
+		\node at (10, 0) {$z=\displaystyle\sum_{i=1}^d w_i x_i + b$};
+		\end{tikzpicture}
+		}
+		\caption{Single neuron model}
+		\label{fig:my_label}
+	\end{figure}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Notations}
