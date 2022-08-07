@@ -239,7 +239,7 @@
 		\end{equation*}
 		\begin{figure}
 			\centering
-			\resizebox{10.0cm}{!}{
+			\resizebox{9.5cm}{!}{
 				\begin{tikzpicture}
 
 					\tikzstyle{every node}=[font=\Large]
@@ -288,6 +288,9 @@
 					\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_2_l);
 					\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_j_l);
 					\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_d_l);
+
+					\node[above=1,align=center] at (bias_l_minus_1.90) {(l-1)-th layer};
+					\node[above=1,align=center] at (bias_l.90) {l-th layer};
 					
 					\node at (-10, -5) {$\begin{cases} \bold{W}^{(l)}=\begin{bmatrix} w_{11}^{(l)} & w_{12}^{(l)} & w_{13}^{(l)} & \dots & w_{1d^{(l)}}^{(l)} \\ w_{21}^{(l)} & w_{22}^{(l)} & w_{23}^{(l)} & \dots & w_{2d^{(l)}}^{(l)} \\ \vdots & \thickspace & \thickspace & \thickspace & \vdots \\ w_{d^{(l-1)}1}^{(l)} & w_{d^{(l-1)}2}^{(l)} & w_{d^{(l-1)}3}^{(l)} & \dots & w_{d^{(l-1)}d^{(l)}}^{(l)}\end{bmatrix} \in \mathbb{R}^{d^{(l-1)} \times d^{(l)}} \\ \bold{b}^{(l)}=\begin{bmatrix} b_1^{(l)} \\  b_2^{(l)} \\ \vdots \\ b_{d^{(l)}}^{(l)} \end{bmatrix} \in \mathbb{R}^{d^{(l)}} \end{cases}$};
 				\end{tikzpicture}
@@ -445,6 +448,82 @@
 		\Rightarrow \begin{cases}\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\bold{a}^{(L-1)}\Big(\bold{e}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\bold{e}^{(L)} \end{cases}
 	\end{equation}
 
+	\begin{figure}
+		\centering
+		\resizebox{11.0cm}{!}{
+			\begin{tikzpicture}
+
+				\tikzstyle{every node}=[font=\Large]
+				
+				\node [circle, draw=black!60, fill=blue!30, minimum size=8mm] (bias_l_minus_1) at (0, 0) {1};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_1^{(L-1)}$}, label={[label distance=0.1cm]-60:$a_1^{(L-1)}$}] (neuron_1_l_minus_1) at (0, -2.5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_i^{(L-1)}$}, label={[label distance=0.1cm]-60:$a_i^{(L-1)}$}] (neuron_i_l_minus_1) at (0, -7.5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_{d^{(L-1)}}^{(l-1)}$}, label={[label distance=0.1cm]-60:$a_{d^{(L-1)}}^{(l-1)}$}] (neuron_d_l_minus_1) at (0, -12.5) {};
+				
+				\path (neuron_1_l_minus_1) --++ (0, -4) node[midway,scale=5] {$\vdots$};
+				\path (neuron_i_l_minus_1) --++ (0, -4) node[midway,scale=5] {$\vdots$};
+				
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_1^{(L)}$}, label={[label distance=0.1cm]-60:$a_1^{(L)}$}] (neuron_1_l) at (6, -2.5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_2^{(L)}$}, label={[label distance=0.1cm]-60:$a_2^{(L)}$}] (neuron_2_l) at (6, -5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_j^{(L)}$}, label={[label distance=0.1cm]-60:$a_j^{(L)}$}] (neuron_j_l) at (6, -10) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_{d^{(L)}}^{(L)}$}, label={[label distance=0.1cm]-60:$a_{d^{(L)}}^{(L)}$}] (neuron_d_l) at (6, -15) {};
+				
+				\path (neuron_2_l) --++ (0, -4.5) node[midway,scale=5] {$\vdots$};
+				\path (neuron_j_l) --++ (0, -4.5) node[midway,scale=5] {$\vdots$};
+				
+				\node[rectangle, draw=red!60, minimum size = 20mm, color=red] (loss) at (15, -7.5) {$\begin{aligned}\mathcal{L}&=\ell \Big(a_1^{(L)}, a_2^{(L)}, \dots, a_{d^{(L)}}^{(L)} \Big) \\&= \ell \Big( \mathbf{a}^{(L)} \Big) \end{aligned}$};
+				
+				\draw[->] (bias_l_minus_1) -- (neuron_1_l) node[midway,above] {$b_1^{(L)}$};
+				\draw[->, dotted] (bias_l_minus_1) -- (neuron_2_l);
+				\draw[->, dotted] (bias_l_minus_1) -- (neuron_j_l);
+				\draw[->, dotted] (bias_l_minus_1) -- (neuron_d_l);
+				
+				\draw[->] (neuron_1_l_minus_1) -- (neuron_1_l) node[midway,above] {$w_{11}^{(L)}$};
+				\draw[->, dotted] (neuron_1_l_minus_1) -- (neuron_2_l);
+				\draw[->, dotted] (neuron_1_l_minus_1) -- (neuron_j_l);
+				\draw[->, dotted] (neuron_1_l_minus_1) -- (neuron_d_l);
+				
+				\draw[->] (neuron_i_l_minus_1) -- (neuron_1_l) node[midway,above=0.2cm] {$w_{i1}^{(L)}$};
+				\draw[->] (neuron_i_l_minus_1) -- (neuron_2_l) node[midway,above=0.2cm] {$w_{i2}^{(L)}$};
+				\draw[->] (neuron_i_l_minus_1) -- (neuron_j_l) node[midway,above] {$w_{ij}^{(L)}$};
+				\draw[->] (neuron_i_l_minus_1) -- (neuron_d_l) node[midway,below=0.2cm] {$w_{id^{(L)}}^{(L)}$};
+				
+				\draw[->] (neuron_d_l_minus_1) -- (neuron_1_l) node[midway,above] {$w_{d^{(L-1)}1}^{(L)}$};
+				\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_2_l);
+				\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_j_l);
+				\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_d_l);
+				
+				\draw[->, draw=red] (loss.west) -- (neuron_1_l) node[color=red, midway, above] {$e_1^{(L)}$};
+				\draw[->, draw=red] (loss.west) -- (neuron_2_l) node[color=red, midway, below=0.25cm] {$e_2^{(L)}$};
+				\draw[->, draw=red] (loss.west) -- (neuron_j_l) node[color=red, midway, above] {$e_j^{(L)}$};
+				\draw[->, draw=red] (loss.west) -- (neuron_d_l) node[color=red, midway, below=0.25cm] {$e_{d^{(L)}}^{(L)}$};
+				
+				\node[above=1,align=center] at (bias_l_minus_1.90) {(L-1)-th layer};
+				\node[above=1,align=center] at (bias_l.90) {L-th layer (Output layer)};
+
+				\node at (-10, -5) {$\begin{cases}
+							\dfrac{\partial \mathcal{L}}{w_{ij}^{(L)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(L)}}\dfrac{\partial z_j^{(L)}}{w_{ij}^{(L)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(L)}}a_i^{(L-1)}=a_i^{(L-1)}\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(L)}}=a_i^{(L-1)}e_j^{(L)}\\
+							\dfrac{\partial \mathcal{L}}{\partial b_j^{(L)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(L)}}\dfrac{\partial z_j^{(L)}}{\partial b_j^{(L)}}=\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(L)}}=e_j^{(L)}
+						\end{cases}$};
+						
+				\node at (-10, -9) {$\begin{aligned}
+							\bold{e}^{(L)}&=\begin{bmatrix} \dfrac{\partial\mathcal{L}}{\partial z_1^{(L)}} & \dfrac{\partial\mathcal{L}}{\partial z_2^{(L)}} & \dots & \dfrac{\partial\mathcal{L}}{\partial z_{d^{(L)}}^{(L)}} \end{bmatrix}^T\\&=\begin{bmatrix} e_1^{(L)} & e_2^{(L)} & \dots & e_{d^{(L)}}^{(L)} \end{bmatrix}^T
+						\end{aligned}$};
+						
+				\node at (-10, -12) {$\Rightarrow\begin{cases}\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\bold{a}^{(L-1)}\Big(\bold{e}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\bold{e}^{(L)} \end{cases}$};
+				
+			\end{tikzpicture}
+		}
+		\caption{Backpropagation visualization at output layer}
+	\end{figure}
+
 	At l-th layer ($1 \leq l < L$):
 
 	\begin{equation}
@@ -477,6 +556,105 @@
 	\begin{equation}
 		\bold{e}^{(l)}=\bold{W}^{(l+1)}\bold{e}^{(l+1)}\odot\bold{f}^{\prime}(\bold{z}^{(l)})
 	\end{equation}
+
+	\begin{figure}
+		\centering
+		\resizebox{10.0cm}{!}{
+			\begin{tikzpicture}
+
+				\tikzstyle{every node}=[font=\Large]
+				
+				\node [circle, draw=black!60, fill=blue!30, minimum size=8mm] (bias_l_minus_1) at (0, 0) {1};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_1^{(l-1)}$}, label={[label distance=0.1cm]-60:$a_1^{(l-1)}$}] (neuron_1_l_minus_1) at (0, -2.5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_i^{(l-1)}$}, label={[label distance=0.1cm]-60:$a_i^{(l-1)}$}] (neuron_i_l_minus_1) at (0, -7.5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_{d^{(l-1)}}^{(l-1)}$}, label={[label distance=0.1cm]-60:$a_{d^{(l-1)}}^{(l-1)}$}] (neuron_d_l_minus_1) at (0, -12.5) {};
+				
+				\path (neuron_1_l_minus_1) --++ (0, -4) node[midway,scale=5] {$\vdots$};
+				\path (neuron_i_l_minus_1) --++ (0, -4) node[midway,scale=5] {$\vdots$};
+				
+				\node [circle, draw=black!60, fill=blue!30, minimum size=8mm] (bias_l) at (6, 0) {1};
+				
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_1^{(l)}$}, label={[label distance=0.1cm]-60:$a_1^{(l)}$}] (neuron_1_l) at (6, -2.5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_j^{(l)}$}, label={[label distance=0.1cm]-60:$a_j^{(l)}$}] (neuron_j_l) at (6, -9) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_{d^{(l)}}^{(l)}$}, label={[label distance=0.1cm]-60:$a_{d^{(l)}}^{(l)}$}] (neuron_d_l) at (6, -14) {};
+				
+				\path (neuron_1_l) --++ (0, -4.5) node[midway,scale=5] {$\vdots$};
+				\path (neuron_j_l) --++ (0, -4.5) node[midway,scale=5] {$\vdots$};
+				
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_1^{(l+1)}$}, label={[label distance=0.1cm]-60:$a_1^{(l+1)}$}] (neuron_1_l_plus_1) at (12, -2.5) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_k^{(l)}$}, label={[label distance=0.1cm]-60:$a_k^{(l)}$}] (neuron_k_l_plus_1) at (12, -7) {};
+				
+				\node[circle, draw=black!60, fill=cyan!60, minimum size=10mm, label={[label distance=0.1cm]-120:$z_{d^{(l+1)}}^{(l+1)}$}, label={[label distance=0.1cm]-60:$a_{d^{(l+1)}}^{(l+1)}$}] (neuron_d_l_plus_1) at (12, -11.5) {};
+				
+				\path (neuron_1_l_plus_1) --++ (0, -3.0) node[midway,scale=5] {$\vdots$};
+				\path (neuron_k_l_plus_1) --++ (0, -3.0) node[midway,scale=5] {$\vdots$};
+				
+				\node [circle, draw=black!60, fill=blue!30, minimum size=8mm] (bias_l_plus_1) at (12, 0) {1};
+				
+				\draw[->] (bias_l_minus_1) -- (neuron_1_l) node[midway,above] {$b_1^{(l)}$};
+				\draw[->, dotted] (bias_l_minus_1) -- (neuron_j_l);
+				\draw[->, dotted] (bias_l_minus_1) -- (neuron_d_l);
+				
+				\draw[->, dotted] (neuron_1_l_minus_1) -- (neuron_1_l);
+				\draw[->, dotted] (neuron_1_l_minus_1) -- (neuron_j_l);
+				\draw[->, dotted] (neuron_1_l_minus_1) -- (neuron_d_l);
+				
+				\draw[->] (neuron_i_l_minus_1) -- (neuron_1_l) node[midway,above=0.2cm] {$w_{i1}^{(l)}$};
+				\draw[->] (neuron_i_l_minus_1) -- (neuron_j_l) node[midway,above] {$w_{ij}^{(l)}$};
+				\draw[->] (neuron_i_l_minus_1) -- (neuron_d_l) node[midway,below=0.2cm] {$w_{id^{(l)}}^{(l)}$};
+				
+				\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_1_l);
+				\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_j_l);
+				\draw[->, dotted] (neuron_d_l_minus_1) -- (neuron_d_l);
+				
+				\draw[->, color=red] (neuron_1_l_plus_1) -- (bias_l)  node[midway, above=0.5cm] {$e_{1}^{(l+1)}$};
+				\draw[->, color=red] (neuron_k_l_plus_1) -- (bias_l)  node[midway, above=0.5cm] {$e_{k}^{(l+1)}$};
+				\draw[->, dotted, color=red] (neuron_d_l_plus_1) -- (bias_l);
+				
+				\draw[->, dotted, color=red] (neuron_1_l_plus_1) -- (neuron_1_l);
+				\draw[->, dotted, color=red] (neuron_k_l_plus_1) -- (neuron_1_l);
+				\draw[->, dotted, color=red] (neuron_d_l_plus_1) -- (neuron_1_l);
+				
+				\draw[->, color=red] (neuron_1_l_plus_1) -- (neuron_j_l)node[midway, above=0.25cm] {$w_{j1}^{(l+1)}e_1^{(l+1)}$};
+				\draw[->, color=red] (neuron_k_l_plus_1) -- (neuron_j_l)  node[midway, above=0.25cm] {$w_{jk}^{(l+1)}e_k^{(l+1)}$};
+				\draw[->, color=red] (neuron_d_l_plus_1) -- (neuron_j_l) node[midway, above=0.25cm] {$w_{jd^{(l+1)}}^{(l+1)}e_{jd^{(l+1)}}^{(l+1)}$};
+				
+				\draw[->, dotted, color=red] (neuron_1_l_plus_1) -- (neuron_d_l);
+				\draw[->, dotted, color=red] (neuron_k_l_plus_1) -- (neuron_d_l);
+				\draw[->, dotted, color=red] (neuron_d_l_plus_1) -- (neuron_d_l);
+				
+				\node[above=1,align=center] at (bias_l_minus_1.90) {(l-1)-th layer};
+				\node[above=1,align=center] at (bias_l.90) {l-th layer};
+				\node[above=1,align=center] at (bias_l_plus_1.90) {(l+1)-th layer};
+				
+				\node[below=2, align=center] at (neuron_d_l_minus_1.-90) {$\mathbf{z}^{(l-1)}-\mathbf{a}^{(l-1)}$};
+				
+				\node[below=2, align=center] at (neuron_d_l.-90) {$\mathbf{z}^{(l)}-\mathbf{a}^{(l)}$};
+				
+				\node[below=2, align=center] at (neuron_d_l_plus_1.-90) {$\mathbf{z}^{(l+1)}-\mathbf{a}^{(l+1)}$};
+				
+				\node at (-10, -3) {$\begin{aligned}
+							e_j^{(l)}&=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}\\&=\sum_{k=1}^{d^{(l+1)}}e_k^{(l+1)}w_{jk}^{(l+1)}\bold{f}^{\prime}\Big(z_j^{(l)}\Big)\\&=\bold{f}^{\prime}(z_j^{(l)})\bold{W}_{j,:}^{(l+1)}\bold{e}^{(l+1)}
+							\end{aligned}$};
+							
+				\node at (-10, -6) {$\Rightarrow\bold{e}^{(l)}=\bold{W}^{(l+1)}\bold{e}^{(l+1)}\odot\bold{f}^{\prime}(\bold{z}^{(l)})$};
+							
+				\node at (-10, -9) {$\begin{cases}\dfrac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}\dfrac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}} a_i^{(l-1)}=a_i^{(l-1)}\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}=a_i^{(l-1)}e_j^{(l)} \\ \dfrac{\partial \mathcal{L}}{\partial b_j^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}\dfrac{\partial z_j^{(l)}}{\partial b_j^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}} = e_j^{(l)} \end{cases}$};
+				
+				\node at (-10, -12) {$\Rightarrow \begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}}=\bold{a}^{(l-1)}\Big(\bold{e}^{(l)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\bold{e}^{(l)} \end{cases}$};
+				
+			\end{tikzpicture}
+		}
+		\caption{Backpropagation visualization from (l+1)-th layer to l-th layer}
+	\end{figure}
 
 	\framebreak
 
