@@ -411,7 +411,7 @@
 		\end{figure}
 		\item Loss function:
 		\begin{equation}
-			\mathcal{L} = \ell\Big(\bold{a}^{(L)} \Big)
+			\mathcal{L} = \ell\Big(\bold{a}^{(L), \bold{y}} \Big)
 		\end{equation}
 	\end{itemize}
 
@@ -478,7 +478,7 @@
 				\path (neuron_2_l) --++ (0, -4.5) node[midway,scale=5] {$\vdots$};
 				\path (neuron_j_l) --++ (0, -4.5) node[midway,scale=5] {$\vdots$};
 				
-				\node[rectangle, draw=red!60, minimum size = 20mm, color=red] (loss) at (15, -7.5) {$\begin{aligned}\mathcal{L}&=\ell \Big(a_1^{(L)}, a_2^{(L)}, \dots, a_{d^{(L)}}^{(L)} \Big) \\&= \ell \Big( \mathbf{a}^{(L)} \Big) \end{aligned}$};
+				\node[rectangle, draw=red!60, minimum size = 20mm, color=red] (loss) at (15, -7.5) {$\begin{aligned}\mathcal{L}&=\ell \Big(a_1^{(L)}, a_2^{(L)}, \dots, a_{d^{(L)}}^{(L)}, \bold{y} \Big) \\&= \ell \Big( \mathbf{a}^{(L)}, \bold{y} \Big) \end{aligned}$};
 				
 				\draw[->] (bias_l_minus_1) -- (neuron_1_l) node[midway,above] {$b_1^{(L)}$};
 				\draw[->, dotted] (bias_l_minus_1) -- (neuron_2_l);
@@ -559,7 +559,7 @@
 
 	\begin{figure}
 		\centering
-		\resizebox{10.0cm}{!}{
+		\resizebox{10.5cm}{!}{
 			\begin{tikzpicture}
 
 				\tikzstyle{every node}=[font=\Large]
@@ -654,6 +654,73 @@
 			\end{tikzpicture}
 		}
 		\caption{Backpropagation visualization from (l+1)-th layer to l-th layer}
+	\end{figure}
+
+	\begin{figure}
+		\centering
+		\resizebox{11cm}{!}{
+			\begin{tikzpicture}
+				\tikzstyle{every node}=[font=\Large]
+				
+				\node [rectangle, draw=black, color=black, minimum width = 40mm, minimum height = 20mm] (forward_0) at (-5, 0) {$\bold{a}_0 = \bold{x}$}; 
+				\node [rectangle, draw=black, color=black, minimum width = 40mm, minimum height = 20mm, right=3cm of forward_0] (forward_1) {$\begin{cases} \bold{z}^{(1)}=\Big(\bold{W}^{(1)}\Big)^T\bold{a}^{(0)} + \bold{b}^{(1)} \\ \bold{a}^{(1)}=\bold{f}\Big( \bold{z}^{(1)} \Big) \end{cases}$};
+				
+				\node [rectangle, scale=5, right=0.5cm of forward_1] {$\dots$};
+				
+				\node [rectangle, draw=black, color=black, minimum width = 40mm, minimum height = 20mm, right=4cm of forward_1] (forward_l) {$\begin{cases} \bold{z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T\bold{a}^{(l-1)} + \bold{b}^{(l)} \\ \bold{a}^{(l)}=\bold{f}\Big( \bold{z}^{(l)} \Big) \end{cases}$};
+				
+				\node[rectangle, scale=5, right=0.5cm of forward_l] {$\dots$};
+				
+				\node [rectangle, draw=black, color=black, minimum width = 40mm, minimum height = 20mm, right=4cm of forward_l] (forward_L_minus_1) {$\begin{cases} \bold{z}^{(L-1)}=\Big(\bold{W}^{(L-1)}\Big)^T\bold{a}^{(L-2)} + \bold{b}^{(L-1)} \\ \bold{a}^{(L-1)}=\bold{f}\Big( \bold{z}^{(L-1)} \Big) \end{cases}$};
+				
+				\node [rectangle, draw=black, color=black, minimum width = 40mm, minimum height = 20mm, right=4cm of forward_L_minus_1] (forward_L) {$\begin{cases} \bold{z}^{(L)}=\Big(\bold{W}^{(L)}\Big)^T\bold{a}^{(L-1)} + \bold{b}^{(L)} \\ \bold{a}^{(L)}=\bold{f}\Big( \bold{z}^{(L)} \Big) \end{cases}$};
+				
+				\node [rectangle, draw=red, color=red, minimum width = 40mm, minimum height = 20mm, right=4cm of forward_L] (loss) {$\begin{aligned}\mathcal{L}&=\ell \Big(a_1^{(L)}, a_2^{(L)}, \dots, a_{d^{(L)}}^{(L)}, \bold{y} \Big) \\&= \ell \Big( \mathbf{a}^{(L)}, \bold{y} \Big) \end{aligned}$};
+				
+				\node[rectangle, draw=red, color=red, minimum width = 40mm, minimum height = 30mm, below=3cm of forward_L]  (backward_L) {$\begin{cases}\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\bold{a}^{(L-1)}\Big(\bold{e}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\bold{e}^{(L)} \end{cases}$};
+				
+				\node[rectangle, draw=red, color=red, minimum width = 40mm, minimum height = 30mm, below=3cm of forward_L_minus_1]  (backward_L_minus_1) {$\begin{cases}\bold{e}^{(L-1)}=\bold{W}^{(L)}\bold{e}^{(L)}\odot\bold{f}^{\prime}(\bold{z}^{(L-1)})\\\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L-1)}}=\bold{a}^{(L-2)}\Big(\bold{e}^{(L-1)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L-1)}}=\bold{e}^{(L-1)} \end{cases}$};
+				
+				\node[rectangle, draw=red, color=red, minimum width = 40mm, minimum height = 30mm, below=3cm of forward_l]  (backward_l) {$\begin{cases}\bold{e}^{(l)}=\bold{W}^{(l+1)}\bold{e}^{(l+1)}\odot\bold{f}^{\prime}(\bold{z}^{(l)})\\\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}}=\bold{a}^{(l-1)}\Big(\bold{e}^{(l)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\bold{e}^{(l)} \end{cases}$};
+				
+				\node[rectangle, draw=red, color=red, minimum width = 40mm, minimum height = 30mm, below=3cm of forward_1]  (backward_1) {$\begin{cases}\bold{e}^{(1)}=\bold{W}^{(2)}\bold{e}^{(2)}\odot\bold{f}^{\prime}(\bold{z}^{(1)})\\\dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(1)}}=\bold{a}^{(0)}\Big(\bold{e}^{(1)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}}=\bold{e}^{(1)} \end{cases}$};
+				
+				\node [rectangle, color=red,  scale=5, right=0.5cm of backward_1] {$\dots$};
+				
+				\node[rectangle, color=red, scale=5, right=0.5cm of backward_l] {$\dots$};
+				
+				\node[rectangle, draw=blue, color=blue, minimum width = 40mm, minimum height = 30mm, below=3cm of backward_1]  (update_1) {$\begin{cases} \bold{W}^{(1)} \leftarrow \bold{W}^{(1)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(1)}} \\ \bold{b}^{(1)} \leftarrow \bold{b}^{(1)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(1)}} \end{cases}$};
+				
+				\node [rectangle, color=blue,  scale=5, right=0.5cm of update_1] {$\dots$};
+				
+				\node[rectangle, draw=blue, color=blue, minimum width = 40mm, minimum height = 30mm, below=3cm of backward_l]  (update_l) {$\begin{cases} \bold{W}^{(l)} \leftarrow \bold{W}^{(l)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(l)}} \\ \bold{b}^{(l)} \leftarrow \bold{b}^{(l)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(l)}} \end{cases}$};
+				
+				\node [rectangle, color=blue,  scale=5, right=0.5cm of update_l] {$\dots$};
+				
+				\node[rectangle, draw=blue, color=blue, minimum width = 40mm, minimum height = 30mm, below=3cm of backward_L_minus_1]  (update_L_minus_1) {$\begin{cases} \bold{W}^{(L-1)} \leftarrow \bold{W}^{(L-1)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L-1)}} \\ \bold{b}^{(L-1)} \leftarrow \bold{b}^{(L-1)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L-1)}} \end{cases}$};
+				
+				\node[rectangle, draw=blue, color=blue, minimum width = 40mm, minimum height = 30mm, below=3cm of backward_L]  (update_L) {$\begin{cases} \bold{W}^{(L} \leftarrow \bold{W}^{(L)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}} \\ \bold{b}^{(L)} \leftarrow \bold{b}^{(L)} - \alpha \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}} \end{cases}$};
+				
+				\draw[->] (forward_0) -- (forward_1) node[midway, above] {$\bold{W}^{(1)}, \bold{b}^{(1)}$};
+				\draw[->] (forward_L_minus_1) -- (forward_L) node[midway, above] {$\bold{W}^{(L)}, \bold{b}^{(L)}$};
+				\draw[->] (forward_L) -- (loss.west);
+				
+				\draw[->, draw=red] (loss.west) -- (backward_L.east) node[color=red, midway, below=1.cm] {$\bold{e}^{(L)}=\dfrac{\partial \mathcal{L}}{\bold{z}^{(L)}}$};
+				
+				\draw[->, draw=red] (backward_L) -- (backward_L_minus_1) node [color=red, midway, above] {$\bold{e}^{(L)}$};
+				
+				\draw[->, draw=blue] (backward_1) -- (update_1);
+				\draw[->, draw=blue] (backward_l) -- (update_l);
+				\draw[->, draw=blue] (backward_L_minus_1) -- (update_L_minus_1);
+				\draw[->, draw=blue] (backward_L) -- (update_L);
+				
+				\node (forward_label) at (-10, 0) {Forward pass};
+				\node[color=red, below=5cm of forward_label](backward_label) {Backward pass (Backpropagation)};
+				\node[color=blue, below=5cm of backward_label] {Update neural network weights};
+				
+			\end{tikzpicture}
+		}
+		\caption{3 stages diagram of single traning step}
 	\end{figure}
 
 	\framebreak
