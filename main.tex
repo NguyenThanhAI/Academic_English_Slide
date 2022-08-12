@@ -59,6 +59,9 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes,snakes}
 
+\usepackage{graphicx}
+\graphicspath{{./figures}}
+\usepackage{hyperref}
 
 \newacronym{ML}{ML}{machine learning}
 \newacronym{HRI}{HRI}{human-robot interactions}
@@ -172,6 +175,64 @@
 		}
 		\caption{Single neuron model}
 		\label{fig:Single neuron model}
+	\end{figure}
+
+	Some popular activation functions:
+
+	%\begin{table} [h!]
+	%	\centering
+	%	\begin{tabular}{ || c | c  || }
+	%	\hline
+	%	Activation Function & Formula \\ [0.5 ex]
+	%	\hline \hline
+	%	ReLU & $\bold{f}(z) = \max(0, z)$ \\ \hline
+	%	Sigmoid & $\bold{f}(z) = \dfrac{1}{1 + e^{-z}}$ \\ \hline
+	%	Tanh & $\bold{f}(z) = \dfrac{e^z - e^{-z}}{e^z + e^{-z}}$ \\ \hline
+	%	Leaky ReLU & $\bold{f}(z)=\max(z, \alpha z) \text{ for } 0 < \alpha < 1 $ \\ \hline
+	%	17 & 18 \\ [1ex]
+	%	\hline
+	%	\end{tabular}
+	%	\caption{Popular activation functions}
+	%	\end{table}
+	\begin{itemize}
+		\item ReLU:
+		\begin{equation*}
+			\bold{f}(z) = \max(0, z)
+		\end{equation*}
+		\item Sigmoid:
+		\begin{equation*}
+			\bold{f}(z) = \dfrac{1}{1 + e^{-z}}
+		\end{equation*}
+		\item Tanh:
+		\begin{equation*}
+			\bold{f}(z) = \dfrac{e^z - e^{-z}}{e^z + e^{-z}}
+		\end{equation*}
+		\item Leaky ReLU:
+		\begin{equation*}
+			\bold{f}(z)=\max(z, \alpha z) \text{ for } 0 < \alpha < 1
+		\end{equation*}
+		\item ELU:
+		\begin{equation*}
+			\bold{f}(z) = \begin{cases} z \text{ for } z \geq 0 \\ \alpha (e^z - 1) \text{ for } z < 0 \end{cases}
+		\end{equation*}
+		\item GELU:
+		\begin{equation*}
+			\bold{f}(z)=0.5 z \Bigg( 1 + \dfrac{2}{\sqrt{\pi}} \int_0^{\frac{z}{\sqrt{2}}} e^{-x^2}dx \Bigg)
+		\end{equation*}
+		\item Swish:
+		\begin{equation*}
+			\bold{f}(z) = \dfrac{z}{1 + e^{-z}}
+		\end{equation*}
+		\item Softplus:
+		\begin{equation*}
+			\bold{f}(z) = \ln(1 + e^z)
+		\end{equation*}
+	\end{itemize}
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=9cm]{activation_functions.png}
+		\caption{Activation functions}
 	\end{figure}
 \end{frame}
 
@@ -411,7 +472,7 @@
 		\end{figure}
 		\item Loss function:
 		\begin{equation}
-			\mathcal{L} = \ell\Big(\bold{a}^{(L), \bold{y}} \Big)
+			\mathcal{L} = \ell\Big(\bold{a}^{(L)}, \bold{y} \Big)
 		\end{equation}
 	\end{itemize}
 
@@ -900,6 +961,9 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Experiment}
+	The experiment uses the dataset \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion Mnist} which contains 70,000 grayscale images in 10 categories
+
+	The images show individual articles of clothing at low resolution (28 x 28 pixels)
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Conclusion}
