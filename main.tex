@@ -362,7 +362,7 @@
     	\begin{equation*}
 			\bold{W}^{(l)}=\begin{bmatrix} w_{11}^{(l)} & w_{12}^{(l)} & w_{13}^{(l)} & \dots & w_{1d^{(l)}}^{(l)} \\ w_{21}^{(l)} & w_{22}^{(l)} & w_{23}^{(l)} & \dots & w_{2d^{(l)}}^{(l)} \\ \vdots & \thickspace & \thickspace & \thickspace & \vdots \\ w_{d^{(l-1)}1}^{(l)} & w_{d^{(l-1)}2}^{(l)} & w_{d^{(l-1)}3}^{(l)} & \dots & w_{d^{(l-1)}d^{(l)}}^{(l)}\end{bmatrix} \in \mathbb{R}^{d^{(l-1)} \times d^{(l)}}
 		\end{equation*}
-		\item $\bold{b}^{(l)}$: bias of l-th layer
+		\item $\bold{b}^{(l)}$: biases of l-th layer
 		\begin{equation*}
 			\bold{b}^{(l)}=\begin{bmatrix} b_1^{(l)} \\  b_2^{(l)} \\ \vdots \\ b_{d^{(l)}}^{(l)} \end{bmatrix}
 		\end{equation*}
@@ -424,7 +424,7 @@
 					\node at (-10, -5) {$\begin{cases} \bold{W}^{(l)}=\begin{bmatrix} w_{11}^{(l)} & w_{12}^{(l)} & w_{13}^{(l)} & \dots & w_{1d^{(l)}}^{(l)} \\ w_{21}^{(l)} & w_{22}^{(l)} & w_{23}^{(l)} & \dots & w_{2d^{(l)}}^{(l)} \\ \vdots & \thickspace & \thickspace & \thickspace & \vdots \\ w_{d^{(l-1)}1}^{(l)} & w_{d^{(l-1)}2}^{(l)} & w_{d^{(l-1)}3}^{(l)} & \dots & w_{d^{(l-1)}d^{(l)}}^{(l)}\end{bmatrix} \in \mathbb{R}^{d^{(l-1)} \times d^{(l)}} \\ \bold{b}^{(l)}=\begin{bmatrix} b_1^{(l)} \\  b_2^{(l)} \\ \vdots \\ b_{d^{(l)}}^{(l)} \end{bmatrix} \in \mathbb{R}^{d^{(l)}} \end{cases}$};
 				\end{tikzpicture}
 			}
-			\caption{2 successive layer visualization}
+			\caption{2 successive layers visualization}
 		\end{figure}
 		\item Pre-activated output of neuron i-th of l-th layer:
 		\begin{equation}
@@ -871,7 +871,7 @@
 					\State{$\bold{z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T \bold{a}^{(l-1)} + \bold{b}^{(l)}$}
 					\State{$\bold{a}^{(l)}=\bold{f}\Big(\bold{z}^{(l)}\Big)$}
 				\EndFor
-				\State{Compute $\mathcal{L}=\ell\Big(\bold{a}^{(L)}\Big)$}
+				\State{Compute $\mathcal{L}=\ell\Big(\bold{a}^{(L)}, \bold{y}\Big)$}
 				\State{$\bold{e}^{(L)}=\dfrac{\partial \mathcal{L}}{\partial \bold{a}^{(L)}} \odot \bold{f}^{\prime}(\bold{z}^{(L)})$}
 				\State{$\begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\bold{a}^{(L-1)}\Big(\bold{e}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\bold{e}^{(L)} \end{cases}$}
 				\For{$l=L-1, \dots, 1$} \Comment{Compute backpropagation (backward pass)}
@@ -971,7 +971,7 @@
 					\State{$\bold{Z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T \bold{A}^{(l-1)} + \bold{B}^{(l)}$}
 					\State{$\bold{A}^{(l)}=\bold{f}\Big(\bold{Z}^{(l)}\Big)$}
 				\EndFor
-				\State{Compute $\mathcal{L}=\ell\Big(\bold{A}^{(L)}\Big)$}
+				\State{Compute $\mathcal{L}=\ell\Big(\bold{A}^{(L)}, \bold{Y}\Big)$}
 				\State{$\bold{E}^{(L)}=\dfrac{\partial \mathcal{L}}{\partial \bold{A}^{(L)}} \odot \bold{f}^{\prime}(\bold{Z}^{(L)})$}
 				\State{$\begin{cases} \dfrac{\partial \mathcal{L}}{\partial \bold{W}^{(L)}}=\dfrac{1}{N}\bold{A}^{(L-1)}\Big(\bold{E}^{(L)}\Big)^T \\ \dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\dfrac{1}{N}\sum_{i=1}^{N}\bold{e}^{(L)} \end{cases}$}
 				\For{$l=L-1, \dots, 1$} \Comment{Compute backpropagation (backward pass)}
@@ -987,6 +987,12 @@
 	\end{minipage}
 	}
 	\endgroup
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=10cm]{softmax.png}
+		\caption{Multi-class classification with Neural Network and Softmax function}
+	\end{figure}
 
 	Softmax function for classification problem:
 
@@ -1069,7 +1075,7 @@
 		\includegraphics[width=8cm]{sample_images_with_labels.png}
 		\caption{Sample images with labels}
 	\end{figure}
-	Network architecture:
+	Network architecture and hyperparameters:
 	\begin{itemize}
 		\item Input image is flattend to 784-d vector
   		\item 2 hidden layers, there are 128 neurons in each layer
