@@ -175,7 +175,7 @@
 \begin{frame}[allowframebreaks]{Introduction}
 	\begin{figure}
 		\centering
-		\resizebox{8.5cm}{!}{%
+		\resizebox{5cm}{!}{%
 		\begin{tikzpicture}
 			\node [circle, draw=black!60, fill=blue!30, minimum size=10mm] (bias) at (0, 5) {1};
 			
@@ -197,53 +197,14 @@
 			\node at (10, 0) {$\begin{cases}z=\displaystyle\sum_{i=1}^d w_i x_i + b \\ a = \mathbf{f}(z) \end{cases}$};
 		\end{tikzpicture}
 		}
-		\caption{A single-neuron model}
+		\caption{A neural network unit}
 		\label{fig:Single neuron model}
 	\end{figure}
 
-	\begin{figure}
-		\centering
-		\resizebox{8cm}{!}{
-			\begin{tikzpicture}[x=2.2cm,y=1.4cm]
-				\message{^^JNeural network, shifted}
-				\readlist\Nnod{4,5,5,5,3} % array of number of nodes per layer
-				\readlist\Nstr{d^{(0)}, d^{(1)}, d^{(2)}, d^{(3)}, d^{(4)}} % array of string number of nodes per layer
-				\readlist\Cstr{\strut x,a^{(\prev)},a^{(\prev)},a^{(\prev)},\hat{y}} % array of coefficient symbol per layer
-				\def\yshift{0.5} % shift last node for dots
-				
-				\message{^^J  Layer}
-				\foreachitem \N \in \Nnod{ % loop over layers
-				  \def\lay{\Ncnt} % alias of index of current layer
-				  \pgfmathsetmacro\prev{int(\Ncnt-1)} % number of previous layer
-				  \message{\lay,}
-				  \foreach \i [evaluate={\c=int(\i==\N); \y=\N/2-\i-\c*\yshift;
-							   \index=(\i<\N?int(\i):"\Nstr[\lay]");
-							   \x=\lay; \n=\nstyle;}] in {1,...,\N}{ % loop over nodes
-					% NODES
-					\node[node \n] (N\lay-\i) at (\x,\y) {$\Cstr[\lay]_{\index}$};
-					
-					% CONNECTIONS
-					\ifnum\lay>1 % connect to previous layer
-					  \foreach \j in {1,...,\Nnod[\prev]}{ % loop over nodes in previous layer
-						\draw[connect,white,line width=1.2] (N\prev-\j) -- (N\lay-\i);
-						\draw[connect] (N\prev-\j) -- (N\lay-\i);
-						%\draw[connect] (N\prev-\j.0) -- (N\lay-\i.180); % connect to left
-					  }
-					\fi % else: nothing to connect first layer
-					
-				  }
-				  \path (N\lay-\N) --++ (0,1+\yshift) node[midway,scale=1.5] {$\vdots$};
-				}
-				
-				% LABELS
-				\node[above=0.5cm,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
-				\node[above=0.5cm,align=center,myblue!60!black] at (N3-1.90) {hidden layers};
-				\node[above=0.5cm,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
-				
-			\end{tikzpicture}
-		}
-		\caption{A neural network with 3 hidden layers}
-	\end{figure}
+	\begin{itemize}
+		\item A neural network unit is a primitive neural network that consists of only the input layer, and an output layer with only one output.
+  		\item A neural network unit computes a non-linear weighted combination of its inputs. 
+	\end{itemize}
 
 	Some popular activation functions:
 
@@ -302,6 +263,51 @@
 		\includegraphics[width=9cm]{activation_functions.png}
 		\caption{Activation functions}
 	\end{figure}
+
+	\begin{figure}
+		\centering
+		\resizebox{8cm}{!}{
+			\begin{tikzpicture}[x=2.2cm,y=1.4cm]
+				\message{^^JNeural network, shifted}
+				\readlist\Nnod{4,5,5,5,3} % array of number of nodes per layer
+				\readlist\Nstr{d^{(0)}, d^{(1)}, d^{(2)}, d^{(3)}, d^{(4)}} % array of string number of nodes per layer
+				\readlist\Cstr{\strut x,a^{(\prev)},a^{(\prev)},a^{(\prev)},\hat{y}} % array of coefficient symbol per layer
+				\def\yshift{0.5} % shift last node for dots
+				
+				\message{^^J  Layer}
+				\foreachitem \N \in \Nnod{ % loop over layers
+				  \def\lay{\Ncnt} % alias of index of current layer
+				  \pgfmathsetmacro\prev{int(\Ncnt-1)} % number of previous layer
+				  \message{\lay,}
+				  \foreach \i [evaluate={\c=int(\i==\N); \y=\N/2-\i-\c*\yshift;
+							   \index=(\i<\N?int(\i):"\Nstr[\lay]");
+							   \x=\lay; \n=\nstyle;}] in {1,...,\N}{ % loop over nodes
+					% NODES
+					\node[node \n] (N\lay-\i) at (\x,\y) {$\Cstr[\lay]_{\index}$};
+					
+					% CONNECTIONS
+					\ifnum\lay>1 % connect to previous layer
+					  \foreach \j in {1,...,\Nnod[\prev]}{ % loop over nodes in previous layer
+						\draw[connect,white,line width=1.2] (N\prev-\j) -- (N\lay-\i);
+						\draw[connect] (N\prev-\j) -- (N\lay-\i);
+						%\draw[connect] (N\prev-\j.0) -- (N\lay-\i.180); % connect to left
+					  }
+					\fi % else: nothing to connect first layer
+					
+				  }
+				  \path (N\lay-\N) --++ (0,1+\yshift) node[midway,scale=1.5] {$\vdots$};
+				}
+				
+				% LABELS
+				\node[above=0.5cm,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
+				\node[above=0.5cm,align=center,myblue!60!black] at (N3-1.90) {hidden layers};
+				\node[above=0.5cm,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
+				
+			\end{tikzpicture}
+		}
+		\caption{A neural network with 3 hidden layers}
+	\end{figure}
+
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Notations}
