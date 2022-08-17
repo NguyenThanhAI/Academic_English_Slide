@@ -111,7 +111,7 @@
 \let\@@magyar@captionfix\relax
 \makeatother
 
-\title[Backpropagation in Training Deep Neural Networks]{Backpropagation in Training \\ Deep Neural Networks}
+\title[Backpropagation For Training Deep Neural Networks]{Backpropagation \\ For Training Deep Neural Networks}
 
 
 \begin{document}
@@ -197,7 +197,7 @@
 			\node at (10, 0) {$\begin{cases}z=\displaystyle\sum_{i=1}^d w_i x_i + b \\ a = \mathbf{f}(z) \end{cases}$};
 		\end{tikzpicture}
 		}
-		\caption{Single neuron model}
+		\caption{A single-neuron model}
 		\label{fig:Single neuron model}
 	\end{figure}
 
@@ -242,7 +242,7 @@
 				
 			\end{tikzpicture}
 		}
-		\caption{Neural network with 3 hidden layers}
+		\caption{A neural network with 3 hidden layers}
 	\end{figure}
 
 	Some popular activation functions:
@@ -311,30 +311,30 @@
     	\item $\bold{W}$: A matrix
      	\item $\bold{W}_{i,:}$: Row $i$ of matrix $\bold{W}$
       	\item $\bold{W}_{:,j}$ or $\bold{w}_j$: Column $j$ of matrix $\bold{W}$
-       	\item $\bold{W^{(l)}}$: weights connect from (l-1)-th layer to l-th layer
-        \item $\bold{b}^{(l)}$: bias connect from (l-1)-th layer to l-th layer
-        \item $w_{ij}^{(l)}$: weight connects from i-th neuron of (l-1)-th layer to jth neuron lth layer
-        \item $z_{i}^{(l)}$: pre-activated output of neuron i-th of l-th layer
-        \item $a_{i}^{(l)}$: activated output of neuron i-th of l-th layer
-        \item $d^{(l)}$: number of neuron (dimension) of l-th layer
-        \item $\bold{z}^{(l)}$: pre-activated output vector of l-th layer. $\bold{z}^{(l)} = \begin{bmatrix} z_1^{(l)} & z_2^{(l)} & \dots & z_{d^{(l)}}^{(l)}\end{bmatrix}^T$
-        \item $\bold{a}^{(l)}$: activated output vector of l-th layer. $\bold{a}^{(l)} = \begin{bmatrix} a_1^{(l)} & a_2^{(l)} &\dots & a_{d^{(l)}}^{(l)}\end{bmatrix}^T$
-        \item $\mathcal{L}$: loss function
-        \item $\odot$: Element-wise product of two vectors
-        \item $\bold{x}=\bold{a}^{(0)}$: input of neural network
+       	\item $\bold{W^{(l)}}$: Weights from (l-1)-th layer to l-th layer
+        \item $\bold{b}^{(l)}$: Biases from (l-1)-th layer to l-th layer
+        \item $w_{ij}^{(l)}$: The weight from i-th neuron of (l-1)-th layer to jth neuron lth layer
+        \item $z_{i}^{(l)}$: The pre-activated output of neuron i-th of l-th layer
+        \item $a_{i}^{(l)}$: The activated output of neuron i-th of l-th layer
+        \item $d^{(l)}$: The number of neuron (dimension) of l-th layer
+        \item $\bold{z}^{(l)}$: The pre-activated output vector of l-th layer. $\bold{z}^{(l)} = \begin{bmatrix} z_1^{(l)} & z_2^{(l)} & \dots & z_{d^{(l)}}^{(l)}\end{bmatrix}^T$
+        \item $\bold{a}^{(l)}$: The activated output vector of l-th layer. $\bold{a}^{(l)} = \begin{bmatrix} a_1^{(l)} & a_2^{(l)} &\dots & a_{d^{(l)}}^{(l)}\end{bmatrix}^T$
+        \item $\mathcal{L}$: The loss function
+        \item $\odot$: An element-wise product of two vectors
+        \item $\bold{x}=\bold{a}^{(0)}$: An input of neural network
 	\end{itemize}
 
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Formulations}
 	\begin{algorithm}[H]
-		\caption{Training neural network}
+		\caption{Training neural networks}
 		\begin{algorithmic}[1]
 			\State{Initialize neural network weights $\bold{W}$ randomly}
 			\While{not converged}
-				\State{Get training sample} (data loading)
-				\State{Calculate neural network output and loss function $\mathcal{L}$} (forward pass)
-				\State{Calculate partial derivatives of loss funtion with respect to $\bold{W}$}
+				\State{Get training samples} (data loading)
+				\State{Calculate neural network outputs and the loss function $\mathcal{L}$} (forward pass)
+				\State{Calculate partial derivatives of the loss funtion with respect to $\bold{W}$}
 				\State{Update neural network weights: \begin{equation*}
 					\bold{W} \leftarrow \bold{W} - \alpha  \dfrac{\partial \mathcal{L}}{\partial \bold{W}}
 				\end{equation*}}
@@ -349,7 +349,7 @@
 
 	\begin{itemize}
 		\item Backpropagation: Partial derivatives of loss function with respect to outputs of a layer computed by partial derivatives of loss function with respect to outputs of its successive layer
-  		\item One training step can decompose of 3 stages:
+  		\item One training step can decompose into 3 stages:
 		\begin{itemize}
 			\item Foward pass: Compute output of deep neural network and loss function
    			\item Backward pass (Backpropagation): Calculate gradient of loss function with respect to weights of layers. Start from top (output) to first (input) layer
@@ -424,21 +424,21 @@
 					\node at (-10, -5) {$\begin{cases} \bold{W}^{(l)}=\begin{bmatrix} w_{11}^{(l)} & w_{12}^{(l)} & w_{13}^{(l)} & \dots & w_{1d^{(l)}}^{(l)} \\ w_{21}^{(l)} & w_{22}^{(l)} & w_{23}^{(l)} & \dots & w_{2d^{(l)}}^{(l)} \\ \vdots & \thickspace & \thickspace & \thickspace & \vdots \\ w_{d^{(l-1)}1}^{(l)} & w_{d^{(l-1)}2}^{(l)} & w_{d^{(l-1)}3}^{(l)} & \dots & w_{d^{(l-1)}d^{(l)}}^{(l)}\end{bmatrix} \in \mathbb{R}^{d^{(l-1)} \times d^{(l)}} \\ \bold{b}^{(l)}=\begin{bmatrix} b_1^{(l)} \\  b_2^{(l)} \\ \vdots \\ b_{d^{(l)}}^{(l)} \end{bmatrix} \in \mathbb{R}^{d^{(l)}} \end{cases}$};
 				\end{tikzpicture}
 			}
-			\caption{2 successive layers visualization}
+			\caption{Visualization of two successive layers}
 		\end{figure}
-		\item Pre-activated output of neuron i-th of l-th layer:
+		\item The pre-activated output of neuron i of l-th layer:
 		\begin{equation}
 			z_j^{(l)}=\sum_{i=1}^{d^{(l-1)}}w_{ij}^{(l)}a_i^{(l-1)}+b_j^{(l)}=\Big(\bold{W}_{:,j}^{(l)}\Big)^T \bold{a}^{(l-1)} + b_j^{(l)}
 		\end{equation}
-		\item Activated output of neuron i-th of l-th layer:
+		\item The activated output of neuron i of l-th layer:
 		\begin{equation}
 			a_j^{(l)} = \bold{f}(z_j^{(l)})
 		\end{equation}
-		\item Pre-activated output in matrix form:
+		\item The pre-activated output in matrix form:
 		\begin{equation}
 			\bold{z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T\bold{a}^{(l-1)} + \bold{b}^{(l)}, l=1, \dots, L
 		\end{equation}
-		\item Activated output in matrix form:
+		\item Activated outputs in matrix form:
 		\begin{equation}
 			\bold{a}^{(l)}=\bold{f}(\bold{z}^{(l)}), l=1, \dots, L
 		\end{equation}
@@ -536,9 +536,9 @@
 					\node at (-5, -12) {$\begin{aligned} \mathbf{a}^{(l)}&=\mathbf{f} \Big( \mathbf{z}^{(l)} \Big)\\&=\mathbf{f} \Big\lbrack\Big(\bold{W}^{(l)}\Big)^T\bold{a}^{(l-1)} + \bold{b}^{(l)} \Big\rbrack \end{aligned}$};
 				\end{tikzpicture}
 			}
-			\caption{3 layers visualization}
+			\caption{Visualization of three layers}
 		\end{figure}
-		\item Loss function:
+		\item The loss function:
 		\begin{equation}
 			\mathcal{L} = \ell\Big(\bold{a}^{(L)}, \bold{y} \Big)
 		\end{equation}
@@ -559,7 +559,7 @@
 		\dfrac{\partial \mathcal{L}}{\partial z_{j}^{(l)}}:=e_j^{(l)}
 	\end{equation}
 
-	At output layer ($L$-th layer):
+	At the output layer ($L$-th layer):
 
 	\begin{equation}
 		\begin{aligned}
@@ -650,10 +650,10 @@
 				
 			\end{tikzpicture}
 		}
-		\caption{Backpropagation visualization at output layer}
+		\caption{Visualization of backpropagation at the output layer}
 	\end{figure}
 
-	At l-th layer ($1 \leq l < L$):
+	At the l-th layer ($1 \leq l < L$):
 
 	\begin{equation}
 		\dfrac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}}\dfrac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}}=\dfrac{\partial \mathcal{L}}{\partial z_j^{(l)}} a_i^{(l-1)}=e_j^{(l)}a_i^{(l-1)}
@@ -782,7 +782,7 @@
 				
 			\end{tikzpicture}
 		}
-		\caption{Backpropagation visualization from (l+1)-th layer to l-th layer}
+		\caption{Visualization of backpropagation from (l+1)-th layer to l-th layer}
 	\end{figure}
 
 	\begin{figure}
@@ -849,7 +849,7 @@
 				
 			\end{tikzpicture}
 		}
-		\caption{3 stages diagram of single traning step}
+		\caption{Three-stage diagram of a single training step}
 	\end{figure}
 
 	\framebreak
@@ -865,7 +865,7 @@
 				\State{Initialize $\bold{W}^{(l)}$ and $\bold{b}^{(l)}$ randomly}
 			\EndFor
 			\While{not converged}
-				\State {Get training sample $\bold{x}$} \Comment{Data loading}
+				\State {Get a training sample $\bold{x}$} \Comment{Data loading}
 				\State{$\bold{a}^{(0)}=\bold{x}$}
 				\For{$l=1,\dots, L$} \Comment{Compute forward pass}
 					\State{$\bold{z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T \bold{a}^{(l-1)} + \bold{b}^{(l)}$}
@@ -888,7 +888,7 @@
 	}
 	\endgroup
 
-	For multiple training samples cases (Minibatch): Batch size $N$
+	For cases with multiple training samples (Minibatch): Batch size $N$
 
 	Input data:
 
@@ -896,37 +896,37 @@
 		\bold{X}=\bold{A}^{(0)}=\begin{bmatrix} \bold{x}_1 \vert \bold{x}_2 \vert \dots \vert \bold{x}_n \vert \dots \vert  \bold{x}_N \end{bmatrix} \in \mathbb{R}^{d^{(0)} \times N}
 	\end{equation}
 
-	Pre-activated outputs of l-th layer:
+	Pre-activated outputs of the l-th layer:
 
 	\begin{equation}
 		\bold{Z}^{(l)}=\begin{bmatrix} \bold{z}_1^{(l)} \vert \bold{z}_2^{(l)} \vert \dots \vert \bold{z}_n^{(l)} \vert \dots \vert \bold{z}_N^{(l)} \end{bmatrix} \in \mathbb{R}^{d^{(l)} \times N}
 	\end{equation}
 
-	Activated outputs of l-th layer:
+	Activated outputs of the l-th layer:
 
 	\begin{equation}
 		\bold{A}^{(l)}=\bold{f}\Big(\bold{Z}^{(l)}\Big)=\begin{bmatrix} \bold{a}_1^{(l)} \vert \bold{a}_2^{(l)} \vert \dots \vert \bold{a}_n^{(l)} \vert \dots \vert \bold{a}_N^{(l)} \end{bmatrix} \in \mathbb{R}^{d^{(l)} \times N}
 	\end{equation}
 
-	Biases is tiled $N$ times:
+	Biases are tiled $N$ times:
 
 	\begin{equation}
 		\bold{B}^{(l)}=\underbrace{\begin{bmatrix} \bold{b}^{(l)} \vert \bold{b}^{(l)} \vert \dots \vert \bold{b}^{(l)} \end{bmatrix}}_{N\text{ times}} \in \mathbb{R}^{d^{(l)} \times N}
 	\end{equation}
 
-	Compute pre-activated outputs of l-th layer:
+	Compute pre-activated outputs of the l-th layer:
 
 	\begin{equation}
 		\bold{Z}^{(l)}=\Big(\bold{W}^{(l)}\Big)^T\bold{A}^{(l-1)} + \bold{B}^{(l)}
 	\end{equation}
 
-	Compute activated outputs of l-th layer:
+	Compute activated outputs of the l-th layer:
 
 	\begin{equation}
 		\bold{A}^{(l)} = \bold{f} \Big( \bold{Z}^{(l)} \Big)
 	\end{equation}
 
-	At output layer ($l=L$):
+	At the output layer ($l=L$):
 
 	\begin{equation}
 		\bold{E}^{(L)}=\dfrac{\partial \mathcal{L}}{\partial \bold{A}^{(L)}} \odot \bold{f}^{\prime}\Big( \bold{Z}^{(L)} \Big)
@@ -942,7 +942,7 @@
 		\dfrac{\partial \mathcal{L}}{\partial \bold{b}^{(L)}}=\dfrac{1}{N}\bold{E}^{(L)}\begin{bmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{bmatrix}=\dfrac{1}{N}\sum_{n=1}^{N}\bold{e}_n^{(L)}
 	\end{equation}
 
-	At l-th layer ($1 \leq l < L$):
+	At the l-th layer ($1 \leq l < L$):
 
 	\begin{equation}
 		\bold{E}^{(l)}=\bold{W}^{(l+1)}\bold{E}^{(l+1)}\odot \bold{f}^{\prime}\Big( \bold{Z}^{(l)} \Big)
@@ -991,10 +991,10 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=10cm]{softmax.png}
-		\caption{Multi-class classification with Neural Network and Softmax function}
+		\caption{Multi-class classification with Neural Network using the Softmax function}
 	\end{figure}
 
-	Softmax function for classification problem:
+	The Softmax function for classification problems:
 
 	\begin{equation}
 		\hat{y}_j = a_j^{(L)}=\dfrac{\exp(z_j^{(L)})}{\sum_{k=1}^{d^{(L)}}\exp(z_k^{(L)})}, j=1,\dots, d^{(L)}
@@ -1006,13 +1006,13 @@
 		\end{aligned}
 	\end{equation}
 
-	Softmax cross entropy loss:
+	The Softmax cross entropy loss:
 
 	\begin{equation}
 		\mathcal{L}=\sum_{j=1}^{d^{(L)}}-y_j \log a_j^{(L)}+(1-y_j)\log(1-a_j^{(L)})
 	\end{equation}
 
-	Compute partial derivatives of cross entropy loss with respect to $\bold{z}^{(L)}$:
+	Compute partial derivatives of the cross entropy loss with respect to $\bold{z}^{(L)}$:
 
 	\begin{equation}
 		\begin{aligned}
@@ -1035,17 +1035,15 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Experiment}
-	The experiment uses the dataset \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion Mnist} which contains 70,000 grayscale images in 10 categories
+	The experiment uses the dataset \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion Mnist} which contains 70,000 grayscale images 10 categories, showing individual articles of clothing at low resolution (28 x 28 pixels)
 
-	The images show individual articles of clothing at low resolution (28 x 28 pixels)
-
-	Divided into two sets:
+	The dataset was divided into two sets:
 	\begin{itemize}
-		\item Training set contains 60000 images and correspoding labels
-  		\item Test set contains 10000 images and correspoding labels
+		\item A training set contains 60000 images and correspoding labels
+  		\item A testing set contains 10000 images and correspoding labels
 	\end{itemize}
 
-	The images are 28x28 NumPy arrays, with pixel values ranging from 0 to 255. 
+	The images are displayed as 28x28 NumPy arrays, with pixel values ranging from 0 to 255. 
 	
 	The labels are an array of integers, ranging from 0 to 9. These correspond to the class of clothing the image represents:
 
@@ -1067,23 +1065,23 @@
 		9 & Ankle boot \\ [1ex]
 		\hline
 		\end{tabular}
-		\caption{Mapping label to class name}
+		\caption{Mapping each label to its class name}
 	\end{table}
 
 	\begin{figure}
 		\centering
 		\includegraphics[width=8cm]{sample_images_with_labels.png}
-		\caption{Sample images with labels}
+		\caption{Sample of images with corresponding labels}
 	\end{figure}
-	Network architecture and hyperparameters:
+	The network architecture and hyperparameters:
 	\begin{itemize}
-		\item Input image is flattend to 784-d vector
-  		\item 2 hidden layers, there are 128 neurons in each layer
-    	\item Output layer contains 10 neuron (equals number of class)
-     	\item Activation function: ReLU
-      	\item Learning rate: $\lbrack 10^{-5}, 10^{-4}, 10^{-3}, 10^{-2}, 5\times10^{-2}, 10^{-1} \rbrack$
-       	\item Batch-size: 256
-        \item Num training epochs: 250
+		\item Each input image is flattened to a 784-d vector 
+  		\item There are 2 hidden layers with 128 neurons per layer
+    	\item The output layer contains 10 neuron (equals number of class)
+     	\item The activation function: ReLU
+      	\item Learning rates: $\lbrack 10^{-5}, 10^{-4}, 10^{-3}, 10^{-2}, 5\times10^{-2}, 10^{-1} \rbrack$
+       	\item The batch size: 256
+        \item The number of training epochs: 250
 	\end{itemize}
 
 	\begin{figure}
@@ -1134,18 +1132,18 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=10cm]{learning_rate_comparisons.png}
-		\caption{Result with different learning rates}
+		\caption{Results with different learning rates}
 	\end{figure}
 
 	\begin{figure}
 		\centering
 		\includegraphics[width=10cm]{images_with_predictions_1.png}
-		\caption{Images with prediction from trained neural network}
+		\caption{Images with corresponding predicted labels from the trained neural network}
 	\end{figure}
 	\begin{figure}
 		\centering
 		\includegraphics[width=11cm]{images_with_predictions_2.png}
-		\caption{Images with prediction from trained neural network}
+		\caption{Images with corresponding predicted labels from the trained neural network}
 	\end{figure}
 
 	\begin{figure}
@@ -1172,15 +1170,15 @@
 		Ankle boot & 0.967 & 0.959 & 0.963 & 1000 \\ [1ex]
 		\hline
 		\end{tabular}
-		\caption{Classification report of neural network on test set}
+		\caption{Classification report of neural network on the testing set}
 	\end{table}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Conclusion}
 	\begin{itemize}
-		\item Introduce neural network
+		\item Introduction about neural networks
   		\item Backpropagation in Multilayer Perceptron
-    	\item Experiment on \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion Mnist}
+    	\item Experiment on the \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion Mnist} dataset
 	\end{itemize}
 \end{frame}
 
