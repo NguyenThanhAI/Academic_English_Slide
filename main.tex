@@ -175,7 +175,7 @@
 \begin{frame}[allowframebreaks]{Introduction}
 	\begin{figure}
 		\centering
-		\resizebox{5cm}{!}{%
+		\resizebox{5.5cm}{!}{%
 		\begin{tikzpicture}
 			\node [circle, draw=black!60, fill=blue!30, minimum size=10mm] (bias) at (0, 5) {1};
 			
@@ -202,7 +202,7 @@
 	\end{figure}
 
 	\begin{itemize}
-		\item A neural network unit is a primitive neural network that consists of only the input layer, and an output layer with only one output.
+		\item A neural network unit is a primitive neural network that consists of only an input layer, and an output layer with only one output.
   		\item A neural network unit computes a non-linear weighted combination of its inputs. 
 	\end{itemize}
 
@@ -333,20 +333,29 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Formulations}
-	\begin{algorithm}[H]
-		\caption{Training neural networks}
-		\begin{algorithmic}[1]
-			\State{Initialize neural network weights $\bold{W}$ randomly}
-			\While{not converged}
-				\State{Get training samples} (data loading)
-				\State{Calculate neural network outputs and the loss function $\mathcal{L}$} (forward pass)
-				\State{Calculate partial derivatives of the loss funtion with respect to $\bold{W}$}
-				\State{Update neural network weights: \begin{equation*}
-					\bold{W} \leftarrow \bold{W} - \alpha  \dfrac{\partial \mathcal{L}}{\partial \bold{W}}
-				\end{equation*}}
-			\EndWhile
-		\end{algorithmic}
-	\end{algorithm}
+	\begingroup
+	\scalebox{0.85}{
+		\begin{minipage}{1.2 \linewidth}
+		\begin{algorithm}[H]
+			\caption{Training neural networks}
+			\hspace*{\algorithmicindent} \textbf{Input:} {A dataset $\mathcal{D}=\Big\lbrace (\bold{x}_1, \bold{y}_1), (\bold{x}_2, \bold{y}_2), \dots, (\bold{x}_S, \bold{y}_S) \Big\rbrace$, a loss function $\mathcal{L}$} \\
+			  \hspace*{\algorithmicindent} \textbf{Output:} {A neural network with trained weights $\bold{W}$}
+			\begin{algorithmic}[1]
+				\State{Initialize neural network weights $\bold{W}$ randomly}
+				\While{not converged}
+					\State{Get training samples from $\mathcal{D}$} (data loading)
+					\State{Calculate neural network outputs and the loss function $\mathcal{L}$} (forward pass)
+					\State{Calculate partial derivatives of the loss funtion with respect to $\bold{W}$}
+					\State{Update neural network weights: \begin{equation*}
+						\bold{W} \leftarrow \bold{W} - \alpha  \dfrac{\partial \mathcal{L}}{\partial \bold{W}}
+					\end{equation*}}
+				\EndWhile
+				\State \Return $\bold{W}$
+			\end{algorithmic}
+		\end{algorithm}
+	\end{minipage}
+	}
+	\endgroup
 
 	\begin{itemize}
 		\item Problem: But how do we calculate $\dfrac{\partial \mathcal{L}}{\partial \bold{W}}$?
