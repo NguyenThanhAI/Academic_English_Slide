@@ -206,6 +206,12 @@
   		\item A neural network unit computes a non-linear weighted combination of its inputs. 
 	\end{itemize}
 
+	\begin{figure}
+		\centering
+		\includegraphics[width=10cm]{natural_neuron.png}
+		\caption{Similarity between a natural neuron and an artificial neuron}
+	\end{figure}
+	\framebreak
 	Some popular activation functions:
 
 	%\begin{table} [h!]
@@ -311,6 +317,18 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Notations}
+	Chain rule:
+	\begin{itemize}
+		\item A function $f(x)=f(g(h(x)))$, derivative of $f$ with respect to $x$:
+		\begin{equation*}
+			\dfrac{d f}{d x} = \dfrac{d f}{d g} \dfrac{d g}{d h} \dfrac{d h}{d x}
+		\end{equation*}
+		\item A function $f(x) = f\Big(z_1(x), z_2(x), \dots, z_n(x)\Big)$, derivative of $f$ with respect to $x$:
+		\begin{equation*}
+			\dfrac{d f}{d x} = \dfrac{\partial f}{\partial z_1} \dfrac{d z_1}{dx} + \dfrac{\partial f}{\partial z_2} \dfrac{d z_2}{dx} + \dots + \dfrac{\partial f}{\partial z_2} \dfrac{d z_2}{dx}=\sum_{i=1}^n \dfrac{\partial f}{\partial z_i} \dfrac{d z_i}{dx}
+		\end{equation*}
+	\end{itemize}
+	\framebreak
 	\begin{itemize}
 		\item $a$: A scalar
   		\item $\bold{a}$: A vector
