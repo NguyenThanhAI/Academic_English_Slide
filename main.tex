@@ -163,7 +163,7 @@
 \begin{frame}{Content}
 
 \begin{enumerate}
-	\item Introduction
+	\item Fundamentals
  	\item Notations
 	\item Formulations
 	\item Experiment
@@ -172,7 +172,7 @@
 
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Introduction}
+\begin{frame}[allowframebreaks]{Fundamentals}
 	\begin{figure}
 		\centering
 		\resizebox{5.5cm}{!}{%
@@ -206,10 +206,13 @@
   		\item A neural network unit computes a non-linear weighted combination of its inputs. 
 	\end{itemize}
 
+
+	What is the name of “neural networks” derived from?
+
 	\begin{figure}
 		\centering
 		\includegraphics[width=10cm]{natural_neuron.png}
-		\caption{Similarity between a natural neuron and an artificial neuron}
+		\caption{Similarities between biological neurons and artificial neurons}
 	\end{figure}
 	\framebreak
 	Some popular activation functions:
@@ -314,6 +317,7 @@
 		\caption{A neural network with 3 hidden layers}
 	\end{figure}
 
+	Lying at the heart of ANN, backpropagation provides a powerful method to calculate derivatives of the loss function with respect to the current weights of the ANN, helping find out the proper set of weights for a reliable model.
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Notations}
@@ -1068,7 +1072,7 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Experiment}
-	The experiment uses the dataset \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion Mnist} which contains 70,000 grayscale images 10 categories, showing individual articles of clothing at low resolution (28 x 28 pixels)
+	The experiment uses the dataset \href{https://github.com/zalandoresearch/fashion-mnist}{Fashion Mnist} which contains 70,000 grayscale images of 10 categories, showing individual articles of clothing at low resolution (28 x 28 pixels)
 
 	The dataset was divided into two sets:
 	\begin{itemize}
@@ -1078,7 +1082,7 @@
 
 	The images are displayed as 28x28 NumPy arrays, with pixel values ranging from 0 to 255. 
 	
-	The labels are an array of integers, ranging from 0 to 9. These correspond to the class of clothing the image represents:
+	The labels are an array of integers, ranging from 0 to 9. These correspond to the class of clothing the images represent:
 
 	\begin{table} [h!]
 		\centering
@@ -1104,13 +1108,13 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=8cm]{sample_images_with_labels.png}
-		\caption{Sample of images with corresponding labels}
+		\caption{A sample of images with corresponding labels}
 	\end{figure}
 	The network architecture and hyperparameters:
 	\begin{itemize}
 		\item Each input image is flattened to a 784-d vector 
   		\item There are 2 hidden layers with 128 neurons per layer
-    	\item The output layer contains 10 neuron (equals number of class)
+    	\item The output layer contains 10 neurons (equals the number of classes)
      	\item The activation function: ReLU
       	\item Learning rates: $\lbrack 10^{-5}, 10^{-4}, 10^{-3}, 10^{-2}, 5\times10^{-2}, 10^{-1} \rbrack$
        	\item The batch size: 256
@@ -1159,7 +1163,7 @@
 				
 			\end{tikzpicture}
 		}
-		\caption{Neural network architecture used in experiment}
+		\caption{Neural network architecture used in the experiment}
 	\end{figure}
 	
 	\begin{figure}
