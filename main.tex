@@ -1046,7 +1046,7 @@
 	The Softmax cross entropy loss:
 
 	\begin{equation}
-		\mathcal{L}=\sum_{j=1}^{d^{(L)}}-y_j \log a_j^{(L)}+(1-y_j)\log(1-a_j^{(L)})
+		\mathcal{L}=\sum_{j=1}^{d^{(L)}}-y_j \log a_j^{(L)}-(1-y_j)\log(1-a_j^{(L)})
 	\end{equation}
 
 	Compute partial derivatives of the cross entropy loss with respect to $\bold{z}^{(L)}$:
